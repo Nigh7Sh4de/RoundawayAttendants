@@ -1,1 +1,33 @@
-/* Empty. Add your own CSS if you like */
+/**
+Facebook: #3b5998
+
+**/
+
+.button.button-facebook {
+    background-color: #3b5998; /*url('../img/FB-f-Logo__blue_50.png') no-repeat 0 0 / 10px 10px;*/
+    color: white;
+}
+
+.button-facebook .ion-social-facebook {
+    padding-right: 10px;
+    margin-right: 10px;
+    border-right: 1px solid rgba(255,255,255,0.5);
+}
+
+
+#loginPage {
+    background: url('../img/BKGD_with_logo.jpg') no-repeat center top / 100%;
+}
+
+#loginPage .login-page-container {
+    margin-top: 50vh;
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#loginPage button {
+    font-weight: bold;
+}
