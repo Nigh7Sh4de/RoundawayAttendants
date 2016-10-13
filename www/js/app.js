@@ -29,10 +29,10 @@ var app = angular.module('starter', ['ionic'])
             templateUrl: 'templates/login.html',
             controller: 'LoginController'
         })
-    	.state('welcome', {
-            url: '/Welcome',
-            templateUrl: 'templates/Welcome.html',
-            controller: 'WelcomeController'
+    	.state('createBooking', {
+            url: '/create/booking',
+            templateUrl: 'templates/create_booking.html',
+            controller: 'CreateBooking'
         });
 
     $urlRouterProvider.otherwise('/login');
@@ -42,25 +42,31 @@ app.controller("LoginController", function($scope, $stateParams, $state) {
  
     $scope.login = function() {
         console.log('log in!')
-        facebookConnectPlugin.getLoginStatus(function(success){
-            console.log('got status!', status);
-            if(success.status === 'connected'){
-                console.log('already logged in :D');
-                $state.go('welcome');
-            }
-            else {
-                console.log('logging in...');
-                facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
-                    console.log('logged in!', response);
-                    $state.go('welcome');
-                }, console.error);
-            }
-        });
+        $state.go('createBooking');
+        // facebookConnectPlugin.getLoginStatus(function(success){
+        //     console.log('got status!', status);
+        //     if(success.status === 'connected'){
+        //         console.log('already logged in :D');
+        //         $state.go('welcome');
+        //     }
+        //     else {
+        //         console.log('logging in...');
+        //         facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
+        //             console.log('logged in!', response);
+        //             $state.go('welcome');
+        //         }, console.error);
+        //     }
+        // });
     }
  
 });
 
 app.controller("WelcomeController", function($scope, $stateParams) {
+ 
+ 
+});
+
+app.controller("CreateBooking", function($scope, $stateParams) {
  
  
 });
