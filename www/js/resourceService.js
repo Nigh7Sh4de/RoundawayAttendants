@@ -1,4 +1,4 @@
-angular.module('starter').service('resourceService', function() {
+angular.module('starter').service('resourceService', function () {
     var stuff = {
         spots: [{
             id: '123456789012345678901234',

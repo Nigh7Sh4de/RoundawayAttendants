@@ -1,16 +1,19 @@
 <ion-view title="Resources" id="resourcesPage">
-    <div class="bar bar-header bar-stable">
-        <div class="button-bar">
-            <a class="button" ng-class="{'button-positive': context == 'lots'}" on-tap="setContext('lots')">Lots</a>
-            <a class="button" ng-class="{'button-positive': context == 'spots'}" on-tap="setContext('spots')">Spots</a>
-        </div>
-    </div>
-    <ion-content>
-        <div class="list">
-            <div ng-repeat="resource in resources[context]" class="item multi" on-tap="viewResourceDetails(context, resource.id)">
-                <span class="">{{resource.name}}</span>
-                <span class="muted">{{resource.location.address}}</span>
-            </div>
-        </div>
-    </ion-content>
+	<div class="bar bar-header bar-stable">
+		<div class="button-bar">
+			<a class="button" ng-class="{'button-positive': context == 'lots'}" on-tap="setContext('lots')">Lots</a>
+			<a class="button" ng-class="{'button-positive': context == 'spots'}" on-tap="setContext('spots')">Spots</a>
+		</div>
+	</div>
+	<ion-content>
+		<div class="list">
+			<div class="item muted" ng-if="!resources[context] || !resources[context].length">
+				<span class="item-label">You do not have any {{context}}</span>
+			</div>
+			<div ng-repeat="resource in resources[context]" class="item multi" on-tap="viewResourceDetails(context, resource.id)">
+				<span class="">{{resource.name}}</span>
+				<span class="muted">{{resource.location.address}}</span>
+			</div>
+		</div>
+	</ion-content>
 </ion-view>
