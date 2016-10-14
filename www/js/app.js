@@ -35,7 +35,7 @@ var app = angular.module('starter', ['ionic'])
             controller: 'CreateBooking'
         })
     	.state('resourceDetails', {
-            url: '/details/:type/:id',
+            url: '/:type/:id',
             templateUrl: 'templates/details.html',
             controller: 'ResourceDetails'
         })
@@ -45,12 +45,12 @@ var app = angular.module('starter', ['ionic'])
             controller: 'ConfirmBooking'
         })
     	.state('searchCar', {
-            url: '/details/:type/:id/cars',
+            url: '/:type/:id/cars',
             templateUrl: 'templates/search_car.html',
             controller: 'SearchCar'
         })
     	.state('resourceList', {
-            url: '/resources',
+            url: '/',
             templateUrl: 'templates/resources.html',
             controller: 'ResourceList'
         });
@@ -77,61 +77,6 @@ app.controller("LoginController", function($scope, $stateParams, $state) {
         //         }, console.error);
         //     }
         // });
-    }
- 
-});
-
-app.controller("WelcomeController", function($scope, $stateParams) {
- 
- 
-});
-
-app.controller("CreateBooking", function($scope, $stateParams, $state) {
-    $scope.createBooking = function() {
-        $state.go('confirmBooking')
-    }
-
-    $scope.cancelBooking = function() {
-        $state.go('resourceDetails')
-    }
- 
-});
-
-app.controller("ResourceDetails", function($scope, $stateParams, $state) {
-    $scope.back = function() {
-        $state.go('resourceList')
-    }
-
-    $scope.searchCarsInResource = function() {
-        $state.go('searchCar', $stateParams)
-    }
- 
-});
-
-app.controller("ConfirmBooking", function($scope, $stateParams, $state) {
-    $scope.back = function() {
-        $state.go('createBooking')
-    }
- 
-});
-
-app.controller("SearchCar", function($scope, $stateParams, $state) {
-    $scope.back = function() {
-        $state.go('resourceDetails', $stateParams)
-    }
-
-    $scope.createBooking = function() {
-        $state.go('createBooking')
-    }
- 
-});
-
-app.controller("ResourceList", function($scope, $stateParams, $state) {
-    $scope.viewResourceDetails = function(id) {
-        $state.go('resourceDetails', {
-            type: 'lot',
-            id: id
-        })
     }
  
 });

@@ -7,6 +7,21 @@ Facebook: #3b5998
     color: #909090;
 }
 
+.signal-light {
+    width: 27px;
+    height: 27px;
+    border-radius: 27px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.signal-light.on {
+    background-color: #33cd5f;
+} 
+
+.signal-light.off {
+    background-color: #ef473a;
+} 
+
 .controls button.button {
     margin: 0;
 }
