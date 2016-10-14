@@ -1,58 +1,61 @@
 <ion-view title="ResourceDetails" id="resourceDetailsPage">
-    <div class="bar bar-header bar-stable">
-        <button class="button button-clear button-positive" on-tap="back()">Back</button>
-        <h1 class="title">Details</h1>
-        <button class="button button-calm" on-tap="searchCarsInResource()">Cars</button>
-    </div>
+	<div class="bar bar-header bar-stable">
+		<button class="button button-clear button-positive" on-tap="back()">Back</button>
+		<h1 class="title">Details</h1>
+		<button class="button button-calm" on-tap="searchCarsInResource()">Cars</button>
+	</div>
 
-    <div class="list">
-        <!--<div class="item item-divider">Details</div>-->
-        <div class="item">
-            <span class="item-label">{{spot.location.address}}</span>
-            <span class="item-note">Address</span>
-        </div>
-        <div class="item">
-            <span class="item-label">{{spot.description}}</span>
-            <span class="item-note">Description</span>
-        </div>
-        <div class="item">
-            <span class="item-label">${{spot.price.perHour}}<span class="muted">/hour</span></span>
-            <span class="item-note">Price</span>
-        </div>
+	<div class="list">
+		<!--<div class="item item-divider">Details</div>-->
+		<div class="item">
+			<span class="item-label">{{spot.location.address}}</span>
+			<span class="item-note">Address</span>
+		</div>
+		<div class="item">
+			<span class="item-label">{{spot.description}}</span>
+			<span class="item-note">Description</span>
+		</div>
+		<div class="item">
+			<span class="item-label">${{spot.price.perHour}}<span class="muted">/hour</span></span>
+			<span class="item-note">Price</span>
+		</div>
 
-        <div class="item item-divider">Availability</div>
-        <div class="item item-toggle">
-            <span class="item-label">Generic</span>
-            <label class="toggle toggle-positive">
+		<div class="item item-divider">Availability</div>
+		<div class="item item-toggle">
+			<span class="item-label">Generic</span>
+			<label class="toggle toggle-positive">
                 <div class="signal-light" ng-class="{on: spot.generic, off: !spot.generic}"></div>
                 <!--<input type="checkbox" />
                 <div class="track">
                     <div class="handle"></div>
                 </div>-->
             </label>
-        </div>
-        <div class="item item-icon-left item-icon-right">
-            <i class="icon ion-plus"></i>
-            <span class="item-label">
+		</div>
+		<div class="item item-icon-left item-icon-right" on-tap="addAvailability()">
+			<i class="icon ion-plus"></i>
+			<span class="item-label">
                 Add
                 <span class="muted">an availability range</span>
-            </span>
-            <i class="icon ion-chevron-right"></i>
-        </div>
-        <div class="item item-icon-left item-icon-right">
-            <i class="icon ion-minus"></i>
-            <span class="item-label">
+			</span>
+			<i class="icon ion-chevron-right"></i>
+		</div>
+		<div class="item item-icon-left item-icon-right" on-tap="removeAvailability()">
+			<i class="icon ion-minus"></i>
+			<span class="item-label">
                 Remove
                 <span class="muted">an availability range</span>
-            </span>
-            <i class="icon ion-chevron-right"></i>
-        </div>
-        <ion-content class="item">
-            <div class="item muted" ng-repeat="availability in spot.available">
-                <span class="item-label">{{availability.start.toString()}}</span>
-                <span>~</span>
-                <span class="item-label">{{availability.end.toString()}}</span>
-            </div>
-        </ion-content>
-    </div>
+			</span>
+			<i class="icon ion-chevron-right"></i>
+		</div>
+		<ion-content class="item">
+			<div class="item muted" ng-if="!spot.available || !spot.available.length">
+				<span class="item-label">No availability ranges have been defined</span>
+			</div>
+			<div class="item muted" ng-repeat="availability in spot.available">
+				<span class="item-label">{{availability.start.toString()}}</span>
+				<span>~</span>
+				<span class="item-label">{{availability.end.toString()}}</span>
+			</div>
+		</ion-content>
+	</div>
 </ion-view>
