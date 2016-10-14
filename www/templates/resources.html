@@ -1,15 +1,15 @@
 <ion-view title="Resources" id="resourcesPage">
     <div class="bar bar-header bar-stable">
         <div class="button-bar">
-            <a class="button button-positive">Lots</a>
-            <a class="button">Spots</a>
+            <a class="button" ng-class="{'button-positive': context == 'lots'}" on-tap="setContext('lots')">Lots</a>
+            <a class="button" ng-class="{'button-positive': context == 'spots'}" on-tap="setContext('spots')">Spots</a>
         </div>
     </div>
     <ion-content>
         <div class="list">
-            <div ng-repeat="spot in spots" class="item multi" on-tap="viewResourceDetails('spots', spot.id)">
-                <span class="">{{spot.name}}</span>
-                <span class="muted">{{spot.location.address}}</span>
+            <div ng-repeat="resource in resources[context]" class="item multi" on-tap="viewResourceDetails(context, resource.id)">
+                <span class="">{{resource.name}}</span>
+                <span class="muted">{{resource.location.address}}</span>
             </div>
         </div>
     </ion-content>
