@@ -1,5 +1,6 @@
 <ion-view title="SearchCar" id="searchCarPage">
     <div class="bar bar-header bar-stable">
+        <button class="button button-clear button-positive" on-tap="back()">Back</button>
         <h1 class="title">Search</h1>
     </div>
     <div class="list">
@@ -17,8 +18,6 @@
             <span class="item-label">ABCD 123</span>
             <span class="item-note">License</span>
         </div>
-    </div>
-    <div>
         <h4 class="muted">Next booking in this spot</h4>
         <div class="availability-preview">
             <div class="preview-from">
@@ -31,5 +30,8 @@
                 12:00PM 01/02/2013
             </div>
         </div>
+    </div>
+    <div class="controls">
+        <button class="button button-positive button-full" ng-click="createBooking()">Create Booking</button>
     </div>
 </ion-view>

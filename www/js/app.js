@@ -40,12 +40,12 @@ var app = angular.module('starter', ['ionic'])
             controller: 'ResourceDetails'
         })
     	.state('confirmBooking', {
-            url: '/confirm/booking',
+            url: '/create/booking/confirm',
             templateUrl: 'templates/confirm_booking.html',
             controller: 'ConfirmBooking'
         })
     	.state('searchCar', {
-            url: '/search/car',
+            url: '/details/:type/:id/cars',
             templateUrl: 'templates/search_car.html',
             controller: 'SearchCar'
         })
@@ -86,27 +86,52 @@ app.controller("WelcomeController", function($scope, $stateParams) {
  
 });
 
-app.controller("CreateBooking", function($scope, $stateParams) {
- 
+app.controller("CreateBooking", function($scope, $stateParams, $state) {
+    $scope.createBooking = function() {
+        $state.go('confirmBooking')
+    }
+
+    $scope.cancelBooking = function() {
+        $state.go('resourceDetails')
+    }
  
 });
 
-app.controller("ResourceDetails", function($scope, $stateParams) {
- 
+app.controller("ResourceDetails", function($scope, $stateParams, $state) {
+    $scope.back = function() {
+        $state.go('resourceList')
+    }
+
+    $scope.searchCarsInResource = function() {
+        $state.go('searchCar', $stateParams)
+    }
  
 });
 
-app.controller("ConfirmBooking", function($scope, $stateParams) {
- 
- 
-});
-
-app.controller("SearchCar", function($scope, $stateParams) {
- 
+app.controller("ConfirmBooking", function($scope, $stateParams, $state) {
+    $scope.back = function() {
+        $state.go('createBooking')
+    }
  
 });
 
-app.controller("ResourceList", function($scope, $stateParams) {
+app.controller("SearchCar", function($scope, $stateParams, $state) {
+    $scope.back = function() {
+        $state.go('resourceDetails', $stateParams)
+    }
+
+    $scope.createBooking = function() {
+        $state.go('createBooking')
+    }
  
+});
+
+app.controller("ResourceList", function($scope, $stateParams, $state) {
+    $scope.viewResourceDetails = function(id) {
+        $state.go('resourceDetails', {
+            type: 'lot',
+            id: id
+        })
+    }
  
 });
