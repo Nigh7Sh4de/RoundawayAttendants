@@ -3,6 +3,22 @@ Facebook: #3b5998
 
 **/
 
+.muted {
+    color: #909090;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item .item-label {
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 5pt;
+}
+
 .button.button-facebook {
     background-color: #3b5998; /*url('../img/FB-f-Logo__blue_50.png') no-repeat 0 0 / 10px 10px;*/
     color: white;
@@ -35,6 +51,10 @@ Facebook: #3b5998
 #createBookingPage {
     display: flex;
     flex-flow: column wrap;
+}
+
+#createBookingPage form {
+    margin-top: 30pt;
 }
 
 #createBookingPage h4 {
@@ -91,4 +111,13 @@ Facebook: #3b5998
     width: 100%;
     height: 60pt;
     font-size: 1.6em;
+}
+
+
+#resourceDetailsPage {
+
+}
+
+#resourceDetailsPage .list {
+    margin-top: 30pt;
 }
