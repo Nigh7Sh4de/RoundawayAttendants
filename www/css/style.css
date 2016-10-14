@@ -197,6 +197,10 @@ button.button-squish {
     text-align: center;
 }
 
+#searchCarPage .availability-preview.empty {
+    background-color: #ef473a;
+}
+
 #searchCarPage .controls {
     justify-content: flex-end;
 }

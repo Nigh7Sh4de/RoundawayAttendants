@@ -51,6 +51,16 @@ angular.module('starter').service('resourceService', function () {
             location: {
                 address: '456 Derp Ave. Cityville, ON 1Z2X3C'
             }
+        }],
+
+        cars: [{
+            license: 'ABCD123',
+            nextBooking: {
+                start: new Date('1:00 01/02/2013'),
+                end: new Date('12:00 01/02/2013')
+            }
+        }, {
+            license: 'ABCD321'
         }]
     }
 
