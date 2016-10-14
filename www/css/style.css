@@ -19,18 +19,6 @@ label.item-input-wrapper input {
     background-color: inherit;
 }
 
-button.button-flex {
-    display: flex;
-    align-items: center;
-    flex-flow: column;
-    align-content: center
-}
-
-button.button-squish {
-    padding: 10pt;
-    line-height: inherit;
-}
-
 .item {
     display: flex;
     justify-content: space-between;
@@ -41,6 +29,22 @@ button.button-squish {
     overflow: hidden;
     text-overflow: ellipsis;
     padding-right: 5pt;
+}
+
+.item.multi {
+    flex-flow: column wrap;
+}
+
+button.button-flex {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    align-content: center
+}
+
+button.button-squish {
+    padding: 10pt;
+    line-height: inherit;
 }
 
 .button.button-facebook {
@@ -181,61 +185,6 @@ button.button-squish {
     justify-content: flex-end;
 }
 
-/*
-
-#createBookingPage {
-    display: flex;
-    flex-flow: column wrap;
-}
-
-#createBookingPage form {
+#resourcesPage .list {
     margin-top: 30pt;
 }
-
-#createBookingPage h4 {
-    padding: 8pt;
-}
-
-#createBookingPage {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: space-between;
-}
-
-
-
-#createBookingPage .availability-input {
-    width: 100%;
-    justify-content: space-around;
-    display: flex;
-    align-items: center;
-    font-size: 1.6em;
-    line-height: 1.1em;
-    text-align: center;
-}
-
-#createBookingPage .booking-price-preview {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-flow: column wrap;
-    align-items: center;
-    font-size: 1.6em;
-    line-height: 1.1em;
-    text-align: center;
-}
-
-#createBookingPage .booking-price-preview h1 {
-    background-color: #909090;
-    padding: 20pt;
-    color: #fff;
-    width: 50%;
-}
-
-#createBookingPage button.button-submit {
-    width: 100%;
-    height: 60pt;
-    font-size: 1.6em;
-}
-
-*/
