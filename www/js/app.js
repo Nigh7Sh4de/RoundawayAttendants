@@ -43,6 +43,11 @@ var app = angular.module('starter', ['ionic'])
             url: '/confirm/booking',
             templateUrl: 'templates/confirm_booking.html',
             controller: 'ConfirmBooking'
+        })
+    	.state('searchCar', {
+            url: '/search/car',
+            templateUrl: 'templates/search_car.html',
+            controller: 'SearchCar'
         });
 
     $urlRouterProvider.otherwise('/login');
@@ -52,7 +57,7 @@ app.controller("LoginController", function($scope, $stateParams, $state) {
  
     $scope.login = function() {
         console.log('log in!')
-        $state.go('confirmBooking');
+        $state.go('searchCar');
         // facebookConnectPlugin.getLoginStatus(function(success){
         //     console.log('got status!', status);
         //     if(success.status === 'connected'){
@@ -87,6 +92,11 @@ app.controller("ResourceDetails", function($scope, $stateParams) {
 });
 
 app.controller("ConfirmBooking", function($scope, $stateParams) {
+ 
+ 
+});
+
+app.controller("SearchCar", function($scope, $stateParams) {
  
  
 });

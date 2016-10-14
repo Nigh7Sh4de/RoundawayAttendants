@@ -15,6 +15,10 @@ Facebook: #3b5998
     color: #c3c3c3;
 }
 
+label.item-input-wrapper input {
+    background-color: inherit;
+}
+
 button.button-flex {
     display: flex;
     align-items: center;
@@ -151,3 +155,87 @@ button.button-squish {
 #confirmBookingPage .list {
     margin-top: 30pt;
 }
+
+#searchCarPage {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+#searchCarPage .list {
+    margin-top: 30pt;
+}
+
+#searchCarPage .availability-preview {
+    background-color: #35c377;
+    width: 100%;
+    height: 115pt;
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    font-size: 1.6em;
+    line-height: 1.1em;
+    text-align: center;
+}
+
+#searchCarPage .controls {
+    justify-content: flex-end;
+}
+
+/*
+
+#createBookingPage {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+#createBookingPage form {
+    margin-top: 30pt;
+}
+
+#createBookingPage h4 {
+    padding: 8pt;
+}
+
+#createBookingPage {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+}
+
+
+
+#createBookingPage .availability-input {
+    width: 100%;
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    font-size: 1.6em;
+    line-height: 1.1em;
+    text-align: center;
+}
+
+#createBookingPage .booking-price-preview {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column wrap;
+    align-items: center;
+    font-size: 1.6em;
+    line-height: 1.1em;
+    text-align: center;
+}
+
+#createBookingPage .booking-price-preview h1 {
+    background-color: #909090;
+    padding: 20pt;
+    color: #fff;
+    width: 50%;
+}
+
+#createBookingPage button.button-submit {
+    width: 100%;
+    height: 60pt;
+    font-size: 1.6em;
+}
+
+*/
