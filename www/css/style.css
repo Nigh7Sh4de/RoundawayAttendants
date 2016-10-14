@@ -7,6 +7,26 @@ Facebook: #3b5998
     color: #909090;
 }
 
+.controls button.button {
+    margin: 0;
+}
+
+.muted-light {
+    color: #c3c3c3;
+}
+
+button.button-flex {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    align-content: center
+}
+
+button.button-squish {
+    padding: 10pt;
+    line-height: inherit;
+}
+
 .item {
     display: flex;
     justify-content: space-between;
@@ -119,5 +139,15 @@ Facebook: #3b5998
 }
 
 #resourceDetailsPage .list {
+    margin-top: 30pt;
+}
+
+#confirmBookingPage {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+#confirmBookingPage .list {
     margin-top: 30pt;
 }
