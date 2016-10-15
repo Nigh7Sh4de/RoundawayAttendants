@@ -5,62 +5,62 @@
 // the 2nd parameter is an array of 'requires'
 var app = angular.module('starter', ['ionic'])
 
-.run(function($ionicPlatform) {
-    $ionicPlatform.ready(function() {
-        if(window.cordova && window.cordova.plugins.Keyboard) {
-            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-            // for form inputs)
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    .run(function ($ionicPlatform) {
+        $ionicPlatform.ready(function () {
+            if (window.cordova && window.cordova.plugins.Keyboard) {
+                // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+                // for form inputs)
+                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 
-            // Don't remove this line unless you know what you are doing. It stops the viewport
-            // from snapping when text inputs are focused. Ionic handles this internally for
-            // a much nicer keyboard experience.
-            cordova.plugins.Keyboard.disableScroll(true);
-        }
-        if(window.StatusBar) {
-            StatusBar.styleDefault();
-        }
-    });
-})
-.config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-    	.state('login', {
-            url: '/login',
-            templateUrl: 'templates/login.html',
-            controller: 'LoginController'
-        })
-    	.state('createBooking', {
-            url: '/create/booking',
-            templateUrl: 'templates/create_booking.html',
-            controller: 'CreateBooking'
-        })
-    	.state('resourceDetails', {
-            url: '/:type/:id',
-            templateUrl: 'templates/details.html',
-            controller: 'ResourceDetails'
-        })
-    	.state('confirmBooking', {
-            url: '/create/booking/confirm',
-            templateUrl: 'templates/confirm_booking.html',
-            controller: 'ConfirmBooking'
-        })
-    	.state('searchCar', {
-            url: '/:type/:id/cars',
-            templateUrl: 'templates/search_car.html',
-            controller: 'SearchCar'
-        })
-    	.state('resourceList', {
-            url: '/',
-            templateUrl: 'templates/resources.html',
-            controller: 'ResourceList'
+                // Don't remove this line unless you know what you are doing. It stops the viewport
+                // from snapping when text inputs are focused. Ionic handles this internally for
+                // a much nicer keyboard experience.
+                cordova.plugins.Keyboard.disableScroll(true);
+            }
+            if (window.StatusBar) {
+                StatusBar.styleDefault();
+            }
         });
+    })
+    .config(function ($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('login', {
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: 'LoginController'
+            })
+            .state('createBooking', {
+                url: '/:type/:id/cars/:license/createbooking',
+                templateUrl: 'templates/create_booking.html',
+                controller: 'CreateBooking'
+            })
+            .state('resourceDetails', {
+                url: '/:type/:id',
+                templateUrl: 'templates/details.html',
+                controller: 'ResourceDetails'
+            })
+            .state('confirmBooking', {
+                url: '/create/booking/confirm',
+                templateUrl: 'templates/confirm_booking.html',
+                controller: 'ConfirmBooking'
+            })
+            .state('searchCar', {
+                url: '/:type/:id/cars',
+                templateUrl: 'templates/search_car.html',
+                controller: 'SearchCar'
+            })
+            .state('resourceList', {
+                url: '/',
+                templateUrl: 'templates/resources.html',
+                controller: 'ResourceList'
+            });
 
-    $urlRouterProvider.otherwise('/login');
-})
+        $urlRouterProvider.otherwise('/login');
+    })
 
-app.controller("LoginController", function($scope, $stateParams, $state) {
- 
-    $scope.login = function() {
+app.controller("LoginController", function ($scope, $stateParams, $state) {
+
+    $scope.login = function () {
         console.log('log in!')
         $state.go('resourceList');
         // facebookConnectPlugin.getLoginStatus(function(success){
@@ -78,5 +78,5 @@ app.controller("LoginController", function($scope, $stateParams, $state) {
         //     }
         // });
     }
- 
+
 });

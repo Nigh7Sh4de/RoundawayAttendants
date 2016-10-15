@@ -1,4 +1,4 @@
-angular.module('starter').controller("ResourceDetails", function ($scope, $stateParams, $state, resourceService) {
+angular.module('starter').controller("ResourceDetails", function ($scope, $stateParams, $state, resourceService, $ionicPopup) {
     $scope.spot = resourceService[$stateParams.type].filter(s => s.id == $stateParams.id)[0];
 
     $scope.back = function () {
@@ -9,12 +9,24 @@ angular.module('starter').controller("ResourceDetails", function ($scope, $state
         $state.go('searchCar', $stateParams)
     }
 
-    $scope.addAvailability = function () {
-        alert('Select availability range to add');
+    var showPopup = function() {
+        $ionicPopup.confirm({
+            title: $scope.availability_edit_mode + " availability",
+            templateUrl: 'templates/select_availability.html',
+            okText: $scope.availability_edit_mode,
+        }).then(function(res) {
+            console.log(res)
+        })
     }
 
-    $scope.removeAvailability = function () {
-        alert('Select availability range to remove');
+    $scope.addAvailability = function (e) {
+        $scope.availability_edit_mode = 'Add';
+        showPopup();
+    }
+
+    $scope.removeAvailability = function (e) {
+        $scope.availability_edit_mode = 'Remove';
+        showPopup();
     }
 
 });

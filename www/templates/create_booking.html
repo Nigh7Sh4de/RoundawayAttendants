@@ -1,32 +1,34 @@
 <ion-view title="CreateBooking" id="createBookingPage">
-    <div class="bar bar-header bar-stable">
-        <h1 class="title">Create Booking</h1>
-    </div>
-    <form>
-        <h4 class="muted">Next available booking:</h4>
-        <div class="availability-preview">
-            <div class="preview-from">
-                1:00AM 01/02/2013
-            </div>
-            <div class="divider">
-                ~
-            </div>
-            <div class="preview-to">
-                12:00PM 01/02/2013
-            </div>
-        </div>
-        <h4><center>Enter the duration you would like:</center></h4>
-        <div class="availability-input">
-            <button class="button">1:00AM 01/02/2013</button>
-            <button class="button">1:00AM 01/02/2013</button>
-        </div>
-    </form>
-    <div class="booking-price-preview">
-        <!--<h4>Price</h4>-->
-        <h1>$4.50</h4>
-    </div>
-    <div class="controls">
-        <button class="button button-assertive button-clear button-full" on-tap="cancelBooking()">Cancel</button>
-        <button class="button button-positive button-submit" on-tap="createBooking()">Create Booking</button>
-    </div>
+	<div class="bar bar-header bar-stable">
+		<h1 class="title">Create Booking</h1>
+	</div>
+	<form>
+		<h4 class="muted">Next available booking:</h4>
+		<div class="availability-preview">
+			<div class="preview-from">
+				1:00AM 01/02/2013
+			</div>
+			<div class="divider">
+				~
+			</div>
+			<div class="preview-to">
+				12:00PM 01/02/2013
+			</div>
+		</div>
+		<h4>
+			<center>Enter the duration you would like:</center>
+		</h4>
+		<div class="availability-input">
+			<button class="button" on-tap="setFrom()">1:00AM 01/02/2013</button>
+			<button class="button" on-tap="setTo()">1:00AM 01/02/2013</button>
+		</div>
+	</form>
+	<div class="booking-price-preview">
+		<!--<h4>Price</h4>-->
+		<h1>$4.50</h4>
+	</div>
+	<div class="controls">
+		<button class="button button-assertive button-clear button-full" on-tap="cancelBooking()">Cancel</button>
+		<button class="button button-positive button-submit" on-tap="createBooking()">Create Booking</button>
+	</div>
 </ion-view>

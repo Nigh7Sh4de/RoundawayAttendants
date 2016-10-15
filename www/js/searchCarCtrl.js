@@ -5,7 +5,7 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
     }
 
     $scope.createBooking = function () {
-        $state.go('createBooking', $stateParams)
+        $state.go('createBooking', Object.assign({}, $stateParams, { license: $scope.car.license }))
     }
 
     $scope.findCar = function (license) {
