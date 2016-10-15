@@ -1,5 +1,9 @@
 <div id="selectAvailability">
-    <button class="button button-bar">1:00AM 01/02/2013</button>
+    <div class="item" ion-datetime-picker am-pm ng-model="availability.start">
+        {{availability.start | date: "yyyy-MM-dd H:mm:ss"}}
+    </div>
     <div>-</div>
-    <button class="button button-bar">12:00PM 01/02/2013</button>
+    <div class="item" ion-datetime-picker am-pm ng-model="availability.end">
+        {{availability.end | date: "yyyy-MM-dd H:mm:ss"}}
+    </div>
 </div>

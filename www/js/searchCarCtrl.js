@@ -8,6 +8,11 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
         $state.go('createBooking', Object.assign({}, $stateParams, { license: $scope.car.license }))
     }
 
+    $scope.nextBooking = {
+        start: new Date(),
+        end: new Date(new Date().valueOf() + 1000*60*60*24)
+    }
+
     $scope.findCar = function (license) {
         $scope.carNotFound = false;
         $scope.car = null;

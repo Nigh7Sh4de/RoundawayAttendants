@@ -27,14 +27,14 @@
 				<div class="padding">This car has no more booking in this spot</div>
 			</div>
 			<div class="availability-preview" ng-if="car.nextBooking">
-				<div class="preview-from">
-					1:00AM 01/02/2013
+				<div class="preview-start">
+					{{nextBooking.start | date: "yyyy-MM-dd H:mm:ss"}}
 				</div>
 				<div class="divider">
 					~
 				</div>
-				<div class="preview-to">
-					12:00PM 01/02/2013
+				<div class="preview-end">
+					{{nextBooking.end | date: "yyyy-MM-dd H:mm:ss"}}
 				</div>
 			</div>
 		</div>

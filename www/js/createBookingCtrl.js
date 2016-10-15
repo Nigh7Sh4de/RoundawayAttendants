@@ -1,4 +1,4 @@
-angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state) {
+angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state, resourceService) {
     $scope.spot = resourceService[$stateParams.type].filter(s => s.id == $stateParams.id)[0];
     $scope.car = resourceService.car.filter(s => s.license.toLowerCase() == $stateParams.license.toLowerCase())[0];
 
@@ -10,11 +10,11 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         $state.go('resourceDetails', $stateParams)
     }
 
-    $scope.setFrom = function () {
+    $scope.setStart = function () {
         alert('choose start datetime')
     }
 
-    $scope.setTo = function () {
+    $scope.setEnd = function () {
         alert('choose end datetime')
     }
 
