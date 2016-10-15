@@ -1,7 +1,7 @@
-angular.module('starter').controller("SearchCar", function ($scope, $stateParams, $state, resourceService) {
+angular.module('starter').controller("SearchCar", function ($scope, $stateParams, $state, $ionicHistory, resourceService) {
 
     $scope.back = function () {
-        $state.go('resourceDetails', $stateParams)
+        $ionicHistory.goBack();
     }
 
     $scope.createBooking = function () {

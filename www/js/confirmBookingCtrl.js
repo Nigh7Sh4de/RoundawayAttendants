@@ -1,6 +1,6 @@
-angular.module('starter').controller("ConfirmBooking", function($scope, $stateParams, $state) {
+angular.module('starter').controller("ConfirmBooking", function($scope, $stateParams, $state, $ionicHistory) {
     $scope.back = function() {
-        $state.go('createBooking', $stateParams)
+        $ionicHistory.goBack();
     }
  
 });

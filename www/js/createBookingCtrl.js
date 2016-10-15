@@ -1,4 +1,4 @@
-angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state, $ionicModal, $ionicPopup, resourceService) {
+angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService) {
     
     $scope.spot = resourceService[$stateParams.type].filter(s => s.id == $stateParams.id)[0];
     $scope.car = resourceService.cars.filter(s => s.license.toLowerCase() == $stateParams.license.toLowerCase())[0];
@@ -52,7 +52,8 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
     }
 
     $scope.cancelBooking = function () {
-        $state.go('resourceDetails', $stateParams)
+        // $state.go('resourceDetails', $stateParams)
+        $ionicHistory.goBack();
     }
 
     $scope.done = function(done) {

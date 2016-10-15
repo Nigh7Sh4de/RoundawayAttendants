@@ -1,8 +1,8 @@
-angular.module('starter').controller("ResourceDetails", function ($scope, $stateParams, $state, resourceService, $ionicPopup) {
+angular.module('starter').controller("ResourceDetails", function ($scope, $stateParams, $state, resourceService, $ionicPopup, $ionicHistory) {
     $scope.spot = resourceService[$stateParams.type].filter(s => s.id == $stateParams.id)[0];
 
     $scope.back = function () {
-        $state.go('resourceList')
+        $ionicHistory.goBack();
     }
 
     $scope.searchCarsInResource = function () {
