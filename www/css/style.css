@@ -122,6 +122,10 @@ button.button-squish {
     text-align: center;
 }
 
+#createBookingPage .availability-preview.empty {
+    background-color: #ef473a;
+}
+
 #createBookingPage .availability-input {
     width: 100%;
     justify-content: space-around;

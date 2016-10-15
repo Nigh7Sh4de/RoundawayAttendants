@@ -1,0 +1,14 @@
+<div class="list">
+    <label class="item item-input">
+        <i class="icon ion-pound placeholder-icon"></i>
+        <input type="text" placeholder="Card Number" ng-model="payment.number" cc-number cc-format>
+    </label>
+    <label class="item item-input" cc-exp>
+        <input type="text" placeholder="MM" ng-model="payment.exp_month" cc-exp-month cc-format>
+        <input type="text" placeholder="YY" ng-model="payment.exp_year" cc-exp-year cc-format>
+    </label>
+    <label class="item item-input">
+        <i class="icon ion-locked placeholder-icon"></i>
+        <input type="text" placeholder="CVC" ng-model="payment.cvc" cc-cvc cc-format>
+    </label>
+</div>

@@ -11,7 +11,7 @@ angular.module('starter').service('resourceService', function () {
             price: {
                 perHour: 1.50
             },
-            available: [{
+            available: new ranger([{
                 start: new Date('1:00 01/02/2013'),
                 end: new Date('12:00 01/02/2013')
             }, {
@@ -20,7 +20,16 @@ angular.module('starter').service('resourceService', function () {
             }, {
                 start: new Date('1:00 03/02/2013'),
                 end: new Date('12:00 03/02/2013')
-            }]
+            }, {
+                start: new Date('1:00 03/02/2016'),
+                end: new Date('12:00 12/02/2016')
+            }, {
+                start: new Date('1:00 03/02/2017'),
+                end: new Date('12:00 03/02/2017')
+            }, {
+                start: new Date('1:00 03/02/2018'),
+                end: new Date('12:00 03/02/2018')
+            }])
         }, {
             id: '123456789012345678901235',
             name: 'Spot #2',

@@ -3,32 +3,41 @@
 		<h1 class="title">Create Booking</h1>
 	</div>
 	<form>
-		<h4 class="muted">Next available booking:</h4>
-		<div class="availability-preview">
+		<h4 class="muted">Next available range:</h4>
+		<div class="availability-preview empty" ng-if="!nextRange">
+			<div class="item-label">
+				There are no more available ranges for spot from the requested time
+			</div>
+		</div>
+		<div class="availability-preview" ng-if="nextRange">
 			<div class="preview-start">
-				1:00AM 01/02/2013
+				{{nextRange.start | date: "MM/dd/yyyy H:mma"}}
 			</div>
 			<div class="divider">
 				~
 			</div>
 			<div class="preview-to">
-				12:00PM 01/02/2013
+				{{nextRange.end | date: "MM/dd/yyyy H:mma"}}
 			</div>
 		</div>
 		<h4>
 			<center>Enter the duration you would like:</center>
 		</h4>
 		<div class="availability-input">
-			<button class="button" on-tap="setStart()">1:00AM 01/02/2013</button>
-			<button class="button" on-tap="setTo()">1:00AM 01/02/2013</button>
+			<div class="item" ion-datetime-picker am-pm ng-model="request.start" ng-class="{'item-assertive': request.start.error}" ng-change="updateNextRange">
+				{{request.start | date: "MM/dd/yyyy H:mm"}}
+			</div>
+			<div class="item" ion-datetime-picker am-pm ng-model="request.end" ng-class="{'item-assertive': request.end.error}" ng-change="updateNextRange">
+				{{request.end | date: "MM/dd/yyyy H:mm"}}
+			</div>
 		</div>
 	</form>
 	<div class="booking-price-preview">
 		<!--<h4>Price</h4>-->
-		<h1>$4.50</h4>
+		<h1>{{price | currency : '$' : 2}}</h4>
 	</div>
 	<div class="controls">
 		<button class="button button-assertive button-clear button-full" on-tap="cancelBooking()">Cancel</button>
-		<button class="button button-positive button-submit" on-tap="createBooking()">Create Booking</button>
+		<button class="button button-positive button-submit" on-tap="createBooking()" ng-disabled="!formIsValid()">Create Booking</button>
 	</div>
 </ion-view>

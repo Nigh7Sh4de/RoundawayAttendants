@@ -48,10 +48,10 @@
 			<i class="icon ion-chevron-right"></i>
 		</div>
 		<ion-content class="item">
-			<div class="item muted" ng-if="!spot.available || !spot.available.length">
+			<div class="item muted" ng-if="!spot.available.ranges || !spot.available.ranges.length">
 				<span class="item-label">No availability ranges have been defined</span>
 			</div>
-			<div class="item muted" ng-repeat="availability in spot.available">
+			<div class="item muted" ng-repeat="availability in spot.available.ranges">
 				<span class="item-label">{{availability.start.toString()}}</span>
 				<span>~</span>
 				<span class="item-label">{{availability.end.toString()}}</span>

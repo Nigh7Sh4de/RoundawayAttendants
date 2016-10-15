@@ -1,38 +1,38 @@
 <ion-view title="ConfirmBooking" id="confirmBookingPage">
     <div class="bar bar-header bar-stable">
-        <button class="button button-clear button-positive" on-tap="back()">Back</button>
+        <button class="button button-clear button-positive" on-tap="modal.hide()">Back</button>
         <h1 class="title">Confirm Booking</h1>
     </div>
 
     <div class="list">
         <div class="item">
-            <span class="item-label">123 Fake St. Derpvill, ON A1B2C3</span>
+            <span class="item-label">{{spot.location.address}}</span>
             <span class="item-note">Address</span>
         </div>
         <div class="item">
-            <span class="item-label">ABCD 123</span>
+            <span class="item-label">{{car.license}}</span>
             <span class="item-note">Car</span>
         </div>
         <div class="item">
-            <span class="item-label">1:00AM 01/02/2013</span>
+            <span class="item-label">{{request.start | date: "MM/dd/yyyy H:mma"}}</span>
             <span class="item-note">Start</span>
         </div>
         <div class="item">
-            <span class="item-label">12:00PM 01/02/2013</span>
+            <span class="item-label">{{request.end | date: "MM/dd/yyyy H:mma"}}</span>
             <span class="item-note">End</span>
         </div>
         <div class="item">
-            <span class="item-label">$4.50<span class="muted">/hour</span></span>
+            <span class="item-label">{{price | currency : '$' : 2}}<span class="muted">/hour</span></span>
             <span class="item-note">Price</span>
         </div>
     </div>
     <div class="icon ion-check"></div>
     <div class="controls">
-        <button class="button button-positive button-full button-flex button-squish">
+        <button class="button button-positive button-full button-flex button-squish" on-tap="confirm(true)">
             <div>Pay</div>
             <div class="muted-light">with credit card</div>
         </button>
-        <button class="button button-default button-full button-flex button-squish">
+        <button class="button button-default button-full button-flex button-squish" on-tap="confirm()">
             <div>Skip</div>
             <div class="muted-light">payment processed manually</div>
         </button>
