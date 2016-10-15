@@ -16,7 +16,9 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
     $scope.findCar = function (license) {
         $scope.carNotFound = false;
         $scope.car = null;
-        var car = resourceService.cars.filter(c => c.license.toLowerCase() == license.toLowerCase())[0]
+        var car = resourceService.cars.filter(function(c) {
+            return c.license.toLowerCase() == license.toLowerCase()
+        })[0];
         if (car)
             $scope.car = car;
         else

@@ -1,4 +1,15 @@
-angular.module('starter').service('resourceService', function () {
+angular.module('starter').service('resourceService', function ($http) {
+
+    var jwt;
+
+    var getStuff = function() {
+        $http.get('localhost:8081/api/spots', {
+            headers: {
+                Authorization: 'JWT ' 
+            }
+        })
+    }
+
     var stuff = {
         spots: [{
             id: '123456789012345678901234',
@@ -73,5 +84,22 @@ angular.module('starter').service('resourceService', function () {
         }]
     }
 
-    return stuff;
+    return Object.assign({}, stuff, {
+        authenticate: function(token) {
+            return new Promise(function(resolve, reject) {
+                $http.post('http://192.168.0.10:8081/auth/facebook', {
+                    // data: {
+                        access_token: token
+                    // }
+                }).success(function(res) {
+                    console.log('got auth response from API', arguments);
+                    jwt = res.data;
+                    resolve();
+                }).error(function(err) {
+                    reject(err);
+                })
+            })
+        },
+        getStuff: getStuff
+    });
 })

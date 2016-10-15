@@ -61,25 +61,36 @@ var app = angular.module('starter', ['ionic', 'ion-datetime-picker', 'credit-car
         $urlRouterProvider.otherwise('/login');
     })
 
-app.controller("LoginController", function ($scope, $stateParams, $state) {
+app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
+
+    var authenticate = function(token) {
+        var loading = $ionicPopup.show({
+            title: 'Loading',
+            template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
+        })
+        resourceService.authenticate(token)
+        .then(function() {
+            loading.close();
+            $state.go('resourceList');
+        })
+    }
 
     $scope.login = function () {
-        console.log('log in!')
-        $state.go('resourceList');
-        // facebookConnectPlugin.getLoginStatus(function(success){
-        //     console.log('got status!', status);
-        //     if(success.status === 'connected'){
-        //         console.log('already logged in :D');
-        //         $state.go('welcome');
-        //     }
-        //     else {
-        //         console.log('logging in...');
-        //         facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
-        //             console.log('logged in!', response);
-        //             $state.go('welcome');
-        //         }, console.error);
-        //     }
-        // });
+        facebookConnectPlugin.getLoginStatus(function(response){
+            if(response.status === 'connected'){
+                authenticate(response.authResponse.accessToken)
+            }
+            else {
+                facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
+                    authenticate(response.authResponse.accessToken);
+                }, function(err) {
+                    $ionicPopup.alert({
+                        title: "Oops!",
+                        template: err.errorMessage || err
+                    })
+                });
+            }
+        });
     }
 
 });

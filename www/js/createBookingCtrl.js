@@ -1,7 +1,11 @@
 angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService) {
     
-    $scope.spot = resourceService[$stateParams.type].filter(s => s.id == $stateParams.id)[0];
-    $scope.car = resourceService.cars.filter(s => s.license.toLowerCase() == $stateParams.license.toLowerCase())[0];
+    $scope.spot = resourceService[$stateParams.type].filter(function (s) {
+        s.id == $stateParams.id
+    })[0];
+    $scope.car = resourceService.cars.filter(function (s) {
+        s.license.toLowerCase() == $stateParams.license.toLowerCase()
+    })[0];
     var now = new Date();
     now.setSeconds(0);
     now.setMilliseconds(0);
@@ -47,12 +51,10 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
     }
     
     $scope.createBooking = function () {
-        // $state.go('confirmBooking', $stateParams)
         $scope.modal.show();
     }
 
     $scope.cancelBooking = function () {
-        // $state.go('resourceDetails', $stateParams)
         $ionicHistory.goBack();
     }
 
