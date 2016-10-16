@@ -1,22 +1,11 @@
 angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state, $ionicModal, $ionicPopup, $ionicHistory, $http, resourceService) {
     
-    // $scope.resource = resourceService[$stateParams.type].filter(function (s) {
-    //     s.id == $stateParams.id
-    // })[0];
-    // $scope.car = resourceService.cars.filter(function (s) {
-    //     s.license.toLowerCase() == $stateParams.license.toLowerCase()
-    // })[0];
-
     resourceService.getResource($stateParams.type, $stateParams.id)
     .then(function(resource) {
         if ($stateParams.type === 'spots') {
             resource.available = new ranger(resource.available.ranges, Date);
         }
         $scope.resource = resource;
-        // $scope.updateNextRange();
-        // $scope.$watch("request.start", $scope.updateNextRange)
-        // $scope.$watch("request.end", $scope.updateNextRange)
-        
     })
     resourceService.getResource('cars', {
         license: $stateParams.license    
@@ -102,32 +91,6 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         $scope.checkAvailability();
     }
     
-    // $scope.updateNextRange = function() {
-    //     if ($scope.request.start > $scope.request.end)
-    //         $scope.request.end = $scope.request.start;
-    //     var nextRange = $scope.resource.available.nextRange($scope.request.start);
-    //     if (!nextRange)
-    //         $scope.request.start.error = true;
-    //     else if ($scope.request.start < nextRange.start)
-    //         $scope.request.start.error = true;
-    //     else if ($scope.request.end > nextRange.end)
-    //         $scope.request.end.error = true;
-
-    //     $scope.nextRange = nextRange;
-    //     var onehour = 1000*60*60;
-    //     var duration = ($scope.request.end - $scope.request.start) / onehour;
-    //     $scope.price = $scope.resource.price.perHour * duration;
-    // }
-
-    // $scope.formIsValid = function() {
-    //     return (
-    //             $scope.nextRange && $scope.request &&
-    //             $scope.nextRange.start <= $scope.request.start &&
-    //             $scope.nextRange.end >= $scope.request.end &&
-    //             $scope.request.end - $scope.request.start > 0
-    //         )
-    // }
-    
     $scope.createBooking = function () {
         var onehour = 1000*60*60;
         var duration = ($scope.request.end - $scope.request.start) / onehour;
@@ -151,17 +114,7 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         $ionicHistory.goBack();
     }
 
-    $scope.done = function(done) {
-        if (done)
-            $ionicPopup.alert({
-                title: 'Thanks :)',
-                template: 'Your booking has been created!'
-            }).then(function(res) {
-                $scope.modal.hide();
-                $state.go('resourceDetails', $stateParams);
-            })
-    }
-
+    var loading;
     $scope.confirm = function(needToPay) {
         var req = {
             start: $scope.request.start,
@@ -169,6 +122,52 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
             license: $scope.request.license,
             spot: $scope.request.spot
         }
+        if (needToPay) {
+            $scope.payment = {}
+            var paymentPopup = $ionicPopup.show({
+                title: 'Payment',
+                templateUrl: 'templates/payment_form.html',
+                scope: $scope,
+                buttons: [{
+                    text: 'Cancel',
+                    type: 'button-default'
+                }, {
+                    text: 'OK',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        e.preventDefault();
+                        loading = $ionicPopup.show({
+                            title: 'Loading',
+                            template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
+                        })
+                        Stripe.card.createToken($scope.payment, function(status, stripe_res) {
+                            if (stripe_res.error) {
+                                return $ionicPopup.alert({
+                                    title: 'Oops!',
+                                    template: 'Payment information was invalid'
+                                })
+                            }
+                            else paymentPopup.close(stripe_res.id);
+                        });
+                    }
+                }]
+            })
+            paymentPopup.then(function(res) {
+                $scope.processBooking(res);
+            })
+            
+        }
+        else {
+            loading = $ionicPopup.show({
+                title: 'Loading',
+                template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
+            })
+            $scope.processBooking();
+        }
+    }
+
+    $scope.processBooking = function(payment) {
+        console.log('Please just fucking work');
         $http.put('http://192.168.0.10:8081/api/spots/' + $scope.request.spot + '/bookings', 
             $scope.request, {
             headers: {
@@ -176,60 +175,26 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
             }
         })
         .then(function(response) {
-            if (needToPay) {
-                $scope.payment = {}
-                var paymentPopup = $ionicPopup.show({
-                    title: 'Payment',
-                    templateUrl: 'templates/payment_form.html',
-                    scope: $scope,
-                    buttons: [{
-                        text: 'Cancel',
-                        type: 'button-default'
-                    }, {
-                        text: 'OK',
-                        type: 'button-positive',
-                        onTap: function(e) {
-                            e.preventDefault();
-                            processPayment()
-                        }
-                    }]
-                })
-                paymentPopup.then(function(res) {
-                    $scope.done(res);
-                })
-                var processPayment = function() {
-                    var loading = $ionicPopup.show({
-                        title: 'Loading',
-                        template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
-                    })
-                    Stripe.card.createToken($scope.payment, function(status, stripe_res) {
-                        loading.close();
-                        if (stripe_res.error) {
-                            return $ionicPopup.alert({
-                                title: 'Oops!',
-                                template: 'Payment information was invalid'
-                            })
-                        }
-                        
-                        // console.log(stripe_res.id);
-                        
-                        $http.put('http://192.168.0.10:8081/api/bookings/' + response.bookings[0].id + '/pay', 
-                            {
-                                token: stripe_res.id
-                            }, {
-                            headers: {
-                                Authorization: 'JWT ' + window.localStorage.getItem("jwt")
-                            }
-                        })
-                        .then(function() {
-                            paymentPopup.close(true);
-                        })
-                    });
+            if (!payment) return Promise.resolve()
+            return $http.put('http://192.168.0.10:8081/api/bookings/' + response.data.data.bookings[0].id + '/pay', 
+                {
+                    token: payment
+                }, {
+                headers: {
+                    Authorization: 'JWT ' + window.localStorage.getItem("jwt")
                 }
-                
-            }
-            else $scope.done(true);
-        });
+            });
+        })
+        .then(function() {
+            loading.close();
+            $ionicPopup.alert({
+                title: 'Thanks :)',
+                template: 'Your booking has been created!'
+            }).then(function(res) {
+                $scope.modal.hide();
+                $state.go('resourceDetails', $stateParams);
+            })
+        })
     }
 
 });
