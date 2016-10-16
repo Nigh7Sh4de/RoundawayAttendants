@@ -16,13 +16,43 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
     $scope.findCar = function (license) {
         $scope.carNotFound = false;
         $scope.car = null;
-        var car = resourceService.cars.filter(function(c) {
-            return c.license.toLowerCase() == license.toLowerCase()
-        })[0];
-        if (car)
-            $scope.car = car;
-        else
-            $scope.carNotFound = true;
+        resourceService.getResource('cars', {
+            license: license.toUpperCase(),
+        })
+        .then(function(cars) {
+            if (cars[0]) {
+                $scope.car = cars[0];
+                var bookingSearch = {
+                    car: $scope.car.id
+                }
+                bookingSearch[$stateParams.type] = $stateParams.id;
+                resourceService.getResource('bookings', bookingSearch)
+                .then(function(bookings) {
+                    for (var i=0;i<bookings.length;i++) {
+                        var b = bookings[i];
+                        b.start = new Date(b.start);
+                        b.end = new Date(b.end);
+                        if (b.end >= Date.now()) {
+                            $scope.car.nextBooking = b;
+                            break;
+                        }
+                    }
+                    $scope.$apply();
+                })
+            }
+            else {
+                $scope.carNotFound = true;
+                $scope.$apply();
+            }
+
+        })
+        // var car = resourceService.cars.filter(function(c) {
+        //     return c.license.toLowerCase() == license.toLowerCase()
+        // })[0];
+        // if (car)
+        //     $scope.car = car;
+        // else
+        //     $scope.carNotFound = true;
     }
 
 });

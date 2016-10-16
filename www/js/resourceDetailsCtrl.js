@@ -1,7 +1,8 @@
 angular.module('starter').controller("ResourceDetails", function ($scope, $stateParams, $state, resourceService, $ionicPopup, $ionicHistory) {
-    $scope.spot = resourceService[$stateParams.type].filter(function (s) {
-        return s.id == $stateParams.id
-    })[0];
+    resourceService.getResource($stateParams.type, $stateParams.id)
+    .then(function(resource) {
+        $scope.resource = resource;
+    })
 
     $scope.back = function () {
         $ionicHistory.goBack();
@@ -22,7 +23,15 @@ angular.module('starter').controller("ResourceDetails", function ($scope, $state
             okText: $scope.availability.edit_mode,
             scope: $scope
         }).then(function(res) {
-            console.log($scope.availability.edit_mode, res);
+            resourceService.adjustAvailability(
+                $stateParams.type,
+                $stateParams.id,
+                $scope.availability,
+                $scope.availability.edit_mode === 'Remove')
+                .then(function(newResource) {
+                    $scope.resource = newResource
+                })
+            // console.log($scope.availability.edit_mode, res);
         })
     }
 

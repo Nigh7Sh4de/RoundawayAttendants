@@ -3,7 +3,7 @@
 		<h1 class="title">Create Booking</h1>
 	</div>
 	<form>
-		<h4 class="muted">Next available range:</h4>
+		<!--<h4 class="muted">Next available range:</h4>
 		<div class="availability-preview empty" ng-if="!nextRange">
 			<div class="item-label">
 				There are no more available ranges for spot from the requested time
@@ -19,11 +19,11 @@
 			<div class="preview-to">
 				{{nextRange.end | date: "MM/dd/yyyy H:mma"}}
 			</div>
-		</div>
+		</div>-->
 		<h4>
 			<center>Enter the duration you would like:</center>
 		</h4>
-		<div class="availability-input">
+		<div class="availability-input padding-bottom">
 			<div class="item" ion-datetime-picker am-pm ng-model="request.start" ng-class="{'item-assertive': request.start.error}" ng-change="updateNextRange">
 				{{request.start | date: "MM/dd/yyyy H:mm"}}
 			</div>
@@ -31,13 +31,29 @@
 				{{request.end | date: "MM/dd/yyyy H:mm"}}
 			</div>
 		</div>
+		<button class="button button-full button-balanced" ng-click="checkAvailability()">Check Availability</button>
+		<!--<div class="booking-price-preview">
+			<h1>{{price | currency : '$' : 2}}</h4>
+		</div>-->
+		<div class="range-is-available" ng-show="range_is_available">
+			<i class="icon ion-checkmark balanced"></i>
+		</div>
+		<div class="list" ng-show="options">
+			<div class="item item-divider multi">
+				<div class="item-label">This time is not available. Here are the following available time slots:</div>
+			</div>
+			<div class="item" ng-repeat="option in options" ng-click="setOption(option)">
+				<div class="item-label">
+					{{option.start | date: "MM/dd/yyyy H:mm"}}
+				</div>
+				<div class="item-label">
+					{{option.end | date: "MM/dd/yyyy H:mm"}}
+				</div>
+			</div>
+		</div>
 	</form>
-	<div class="booking-price-preview">
-		<!--<h4>Price</h4>-->
-		<h1>{{price | currency : '$' : 2}}</h4>
-	</div>
 	<div class="controls">
 		<button class="button button-assertive button-clear button-full" on-tap="cancelBooking()">Cancel</button>
-		<button class="button button-positive button-submit" on-tap="createBooking()" ng-disabled="!formIsValid()">Create Booking</button>
+		<button class="button button-positive button-full" on-tap="createBooking()" ng-disabled="!range_is_available">Create Booking</button>
 	</div>
 </ion-view>

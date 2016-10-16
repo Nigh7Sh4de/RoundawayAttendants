@@ -46,8 +46,11 @@ label.item-input-wrapper input {
     padding-right: 5pt;
 }
 
-.item.multi {
+.item.multi, .item.multi .item-label {
     flex-flow: column wrap;
+    overflow: auto;
+    white-space: normal;
+    word-break: keep-all;
 }
 
 button.button-flex {
@@ -154,12 +157,17 @@ button.button-squish {
     width: 50%;
 }
 
-#createBookingPage button.button-submit {
+/*#createBookingPage button.button-submit {
     width: 100%;
     height: 60pt;
     font-size: 1.6em;
-}
+}*/
 
+#createBookingPage .range-is-available {
+    display: flex;
+    font-size: 100pt;
+    justify-content: center;
+}
 
 #resourceDetailsPage {
 

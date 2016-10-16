@@ -1,11 +1,30 @@
-angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService) {
+angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $state, $ionicModal, $ionicPopup, $ionicHistory, $http, resourceService) {
     
-    $scope.spot = resourceService[$stateParams.type].filter(function (s) {
-        s.id == $stateParams.id
-    })[0];
-    $scope.car = resourceService.cars.filter(function (s) {
-        s.license.toLowerCase() == $stateParams.license.toLowerCase()
-    })[0];
+    // $scope.resource = resourceService[$stateParams.type].filter(function (s) {
+    //     s.id == $stateParams.id
+    // })[0];
+    // $scope.car = resourceService.cars.filter(function (s) {
+    //     s.license.toLowerCase() == $stateParams.license.toLowerCase()
+    // })[0];
+
+    resourceService.getResource($stateParams.type, $stateParams.id)
+    .then(function(resource) {
+        if ($stateParams.type === 'spots') {
+            resource.available = new ranger(resource.available.ranges, Date);
+        }
+        $scope.resource = resource;
+        // $scope.updateNextRange();
+        // $scope.$watch("request.start", $scope.updateNextRange)
+        // $scope.$watch("request.end", $scope.updateNextRange)
+        
+    })
+    resourceService.getResource('cars', {
+        license: $stateParams.license    
+    })
+    .then(function(resource) {
+        $scope.car = resource[0];
+    })
+
     var now = new Date();
     now.setSeconds(0);
     now.setMilliseconds(0);
@@ -19,38 +38,112 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
     }).then(function(modal) {
         $scope.modal = modal;
     })
-    
-    
-    $scope.updateNextRange = function() {
-        if ($scope.request.start > $scope.request.end)
-            $scope.request.end = $scope.request.start;
-        var nextRange = $scope.spot.available.nextRange($scope.request.start);
-        if (!nextRange)
-            $scope.request.start.error = true;
-        else if ($scope.request.start < nextRange.start)
-            $scope.request.start.error = true;
-        else if ($scope.request.end > nextRange.end)
-            $scope.request.end.error = true;
 
-        $scope.nextRange = nextRange;
-        var onehour = 1000*60*60;
-        var duration = ($scope.request.end - $scope.request.start) / onehour;
-        $scope.price = $scope.spot.price.perHour * duration;
+    $scope.checkAvailability = function() {
+        $scope.options = null;
+        if ($stateParams.type === 'spots') {
+            if ($scope.resource.available.checkRange(
+                $scope.request.start,
+                $scope.request.end
+            )) $scope.range_is_available = true; 
+            else {
+                var start = $scope.request.start;
+                $scope.options = [];
+                for (var i=0;i<5;i++) {
+                    var next = $scope.resource.available.nextRange(start);
+                    if (!next) break;
+                    start = next.end;
+                    $scope.options.push({
+                        start: next.start,
+                        end: next.end,
+                        spot: $scope.resource.id,
+                        address: $scope.resource.location.address,
+                        price: $scope.resource.price.perHour
+                    });
+                }
+            }
+        }
+        else if ($stateParams.type === 'lots')
+            $http.put('http://192.168.0.10:8081/api/lots/' + $stateParams.id + '/available/check', 
+                $scope.request, {
+                headers: {
+                    Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                }
+            })
+            .then(function(response) {
+                $scope.options = response.exact.map(function(spot) {
+                    var range = spot.available.nextRange($scope.request.start);
+                    return {
+                        start: range.start,
+                        end: range.end,
+                        spot: spot.id,
+                        address: spot.location.address,
+                        price: spot.price.perHour
+                    }
+                });
+                if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
+                else $scope.options = $scope.options.concat(response.similar.map(function(spot) {
+                    var range = spot.available.nextRange($scope.request.start);
+                    return {
+                        start: range.start,
+                        end: range.end,
+                        spot: spot.id,
+                        address: spot.location.address,
+                        price: spot.price.perHour
+                    }
+                }));
+                if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
+                $scope.$apply();
+            })
     }
-    $scope.updateNextRange();
-    $scope.$watch("request.start", $scope.updateNextRange)
-    $scope.$watch("request.end", $scope.updateNextRange)
 
-    $scope.formIsValid = function() {
-        return (
-                $scope.nextRange && $scope.request &&
-                $scope.nextRange.start <= $scope.request.start &&
-                $scope.nextRange.end >= $scope.request.end &&
-                $scope.request.end - $scope.request.start > 0
-            )
+    $scope.setOption = function(option) {
+        $scope.request = option;
+        $scope.checkAvailability();
     }
+    
+    // $scope.updateNextRange = function() {
+    //     if ($scope.request.start > $scope.request.end)
+    //         $scope.request.end = $scope.request.start;
+    //     var nextRange = $scope.resource.available.nextRange($scope.request.start);
+    //     if (!nextRange)
+    //         $scope.request.start.error = true;
+    //     else if ($scope.request.start < nextRange.start)
+    //         $scope.request.start.error = true;
+    //     else if ($scope.request.end > nextRange.end)
+    //         $scope.request.end.error = true;
+
+    //     $scope.nextRange = nextRange;
+    //     var onehour = 1000*60*60;
+    //     var duration = ($scope.request.end - $scope.request.start) / onehour;
+    //     $scope.price = $scope.resource.price.perHour * duration;
+    // }
+
+    // $scope.formIsValid = function() {
+    //     return (
+    //             $scope.nextRange && $scope.request &&
+    //             $scope.nextRange.start <= $scope.request.start &&
+    //             $scope.nextRange.end >= $scope.request.end &&
+    //             $scope.request.end - $scope.request.start > 0
+    //         )
+    // }
     
     $scope.createBooking = function () {
+        var onehour = 1000*60*60;
+        var duration = ($scope.request.end - $scope.request.start) / onehour;
+        var price = duration * ($scope.request.price || $scope.resource.price.perHour);
+
+
+        $scope.request = {
+            address: $scope.request.address || resource.location.address,
+            license: $scope.car.license,
+            start: $scope.request.start,
+            end: $scope.request.end,
+            price: price,
+            spot: $scope.request.spot
+        }
+
+
         $scope.modal.show();
     }
 
@@ -62,7 +155,7 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         if (done)
             $ionicPopup.alert({
                 title: 'Thanks :)',
-                tempalte: 'Your booking has been created!'
+                template: 'Your booking has been created!'
             }).then(function(res) {
                 $scope.modal.hide();
                 $state.go('resourceDetails', $stateParams);
@@ -70,8 +163,19 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
     }
 
     $scope.confirm = function(needToPay) {
-        //xhr create booking
-        //.then() => {
+        var req = {
+            start: $scope.request.start,
+            end: $scope.request.end,
+            license: $scope.request.license,
+            spot: $scope.request.spot
+        }
+        $http.put('http://192.168.0.10:8081/api/spots/' + $scope.request.spot + '/bookings', 
+            $scope.request, {
+            headers: {
+                Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+            }
+        })
+        .then(function(response) {
             if (needToPay) {
                 $scope.payment = {}
                 var paymentPopup = $ionicPopup.show({
@@ -107,18 +211,25 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
                             })
                         }
                         
-                        console.log(stripe_res.id);
+                        // console.log(stripe_res.id);
                         
-                        // xhr pay
-                        // .then() => {
+                        $http.put('http://192.168.0.10:8081/api/bookings/' + response.bookings[0].id + '/pay', 
+                            {
+                                token: stripe_res.id
+                            }, {
+                            headers: {
+                                Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                            }
+                        })
+                        .then(function() {
                             paymentPopup.close(true);
-                        // }
+                        })
                     });
                 }
                 
             }
             else $scope.done(true);
-        //}
+        });
     }
 
 });

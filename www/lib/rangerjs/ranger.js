@@ -1,6 +1,12 @@
 
-var ranger = function(arr) {
+var ranger = function(arr, type) {
     this.ranges = arr || [];
+    if (type) this.ranges = this.ranges.map(function(range) {
+        return {
+            start: new type(range.start),
+            end: new type(range.end)
+        }
+    })
 }
 
 ranger.Range = function(Type) {

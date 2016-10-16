@@ -11,10 +11,10 @@
             </label>
 			<button class="button button-positive icon-right ion-search" on-tap="findCar(carSearch)"></button>
 		</div>
-		<div class="item muted" ng-if="carNotFound">
+		<div class="item muted" ng-show="carNotFound">
 			Car not found
 		</div>
-		<div class="result" ng-if="car">
+		<div class="result" ng-show="car">
 			<div class="item item-divider">
 				Found car!
 			</div>
@@ -23,10 +23,10 @@
 				<span class="item-note">License</span>
 			</div>
 			<h4 class="muted">Next booking in this spot</h4>
-			<div class="availability-preview empty" ng-if="!car.nextBooking">
+			<div class="availability-preview empty" ng-show="!car.nextBooking">
 				<div class="padding">This car has no more booking in this spot</div>
 			</div>
-			<div class="availability-preview" ng-if="car.nextBooking">
+			<div class="availability-preview" ng-show="car.nextBooking">
 				<div class="preview-start">
 					{{nextBooking.start | date: "MM/dd/yyyy H:mm"}}
 				</div>
@@ -40,6 +40,6 @@
 		</div>
 	</div>
 	<div class="footer">
-		<button class="button button-positive button-full" ng-if="car" on-tap="createBooking()">Create Booking</button>
+		<button class="button button-positive button-full" ng-show="car" on-tap="createBooking()">Create Booking</button>
 	</div>
 </ion-view>

@@ -7,7 +7,7 @@
 	</div>
 	<ion-content>
 		<div class="list">
-			<div class="item muted" ng-if="!resources[context] || !resources[context].length">
+			<div class="item muted" ng-show="!resources[context] || !resources[context].length">
 				<span class="item-label">You do not have any {{context}}</span>
 			</div>
 			<div ng-repeat="resource in resources[context]" class="item multi" on-tap="viewResourceDetails(context, resource.id)">
