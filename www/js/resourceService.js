@@ -104,7 +104,7 @@ angular.module('starter').service('resourceService', function ($http) {
         checkAvailability: checkAvailability,
         createBooking: createBooking,
         payBooking: payBooking
-    });
+    }
 })
 
 
