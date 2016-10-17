@@ -11,26 +11,22 @@
 			<span class="item-label">{{resource.location.address}}</span>
 			<span class="item-note">Address</span>
 		</div>
-		<div class="item">
+		<!--<div class="item">
 			<span class="item-label">{{resource.description}}</span>
 			<span class="item-note">Description</span>
 		</div>
 		<div class="item">
 			<span class="item-label">${{resource.price.perHour}}<span class="muted">/hour</span></span>
 			<span class="item-note">Price</span>
-		</div>
+		</div>-->
 
 		<div class="item item-divider">Availability</div>
-		<div class="item item-toggle">
-			<span class="item-label">Generic</span>
+		<!--<div class="item item-toggle">
+			<!--<span class="item-label">Generic</span>
 			<label class="toggle toggle-positive">
                 <div class="signal-light" ng-class="{on: resource.generic, off: !resource.generic}"></div>
-                <!--<input type="checkbox" />
-                <div class="track">
-                    <div class="handle"></div>
-                </div>-->
             </label>
-		</div>
+		</div>-->
 		<!--<div class="item item-icon-left item-icon-right" on-tap="addAvailability($event)">
 			<i class="icon ion-plus"></i>
 			<span class="item-label">
@@ -52,9 +48,9 @@
 				<span class="item-label">No availability ranges have been defined</span>
 			</div>
 			<div class="item muted" ng-repeat="availability in resource.available.ranges">
-				<span class="item-label">{{availability.start.toString()}}</span>
+				<span class="item-label">{{availability.start | date: "MM/dd/yyyy H:mm"}}</span>
 				<span>~</span>
-				<span class="item-label">{{availability.end.toString()}}</span>
+				<span class="item-label">{{availability.end | date: "MM/dd/yyyy H:mm"}}</span>
 			</div>
 		</ion-content>
 	</div>

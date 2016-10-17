@@ -35,8 +35,11 @@
 		<!--<div class="booking-price-preview">
 			<h1>{{price | currency : '$' : 2}}</h4>
 		</div>-->
-		<div class="range-is-available" ng-show="range_is_available">
+		<div class="range-is-available" ng-show="range_is_available === true">
 			<i class="icon ion-checkmark balanced"></i>
+		</div>
+		<div class="range-is-available" ng-show="range_is_available === false">
+			<i class="icon ion-close assertive"></i>
 		</div>
 		<div class="list" ng-show="options">
 			<div class="item item-divider multi">

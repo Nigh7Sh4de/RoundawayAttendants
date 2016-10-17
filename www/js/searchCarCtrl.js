@@ -1,5 +1,10 @@
 angular.module('starter').controller("SearchCar", function ($scope, $stateParams, $state, $ionicHistory, resourceService) {
 
+    $scope.$on('refresh-resources', function() {
+        $scope.car = null;
+    });
+
+
     $scope.back = function () {
         $ionicHistory.goBack();
     }
@@ -8,16 +13,12 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
         $state.go('createBooking', Object.assign({}, $stateParams, { license: $scope.car.license }))
     }
 
-    $scope.nextBooking = {
-        start: new Date(),
-        end: new Date(new Date().valueOf() + 1000*60*60*24)
-    }
-
     $scope.findCar = function (license) {
-        $scope.carNotFound = false;
+        license = license.toUpperCase();
+        // $scope.carNotFound = false;
         $scope.car = null;
         resourceService.getResource('cars', {
-            license: license.toUpperCase(),
+            license: license,
         })
         .then(function(cars) {
             if (cars[0]) {
@@ -25,7 +26,7 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
                 var bookingSearch = {
                     car: $scope.car.id
                 }
-                bookingSearch[$stateParams.type] = $stateParams.id;
+                bookingSearch[$stateParams.type.slice(0, $stateParams.type.length-1)] = $stateParams.id;
                 resourceService.getResource('bookings', bookingSearch)
                 .then(function(bookings) {
                     for (var i=0;i<bookings.length;i++) {
@@ -34,25 +35,22 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
                         b.end = new Date(b.end);
                         if (b.end >= Date.now()) {
                             $scope.car.nextBooking = b;
+                            $scope.car.nextBooking.later = b.start > Date.now();
+                            console.log($scope.car)
                             break;
                         }
                     }
                     $scope.$apply();
                 })
             }
-            else {
-                $scope.carNotFound = true;
-                $scope.$apply();
-            }
-
         })
-        // var car = resourceService.cars.filter(function(c) {
-        //     return c.license.toLowerCase() == license.toLowerCase()
-        // })[0];
-        // if (car)
-        //     $scope.car = car;
-        // else
-        //     $scope.carNotFound = true;
+        .catch(function(err) {
+            // console.error(err);
+            $scope.car = {
+                license: license
+            }
+            $scope.$apply();
+        })
     }
 
 });

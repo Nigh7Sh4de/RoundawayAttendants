@@ -91,7 +91,7 @@ angular.module('starter').service('resourceService', function ($http) {
                 else {
                     url += '?';
                     for (var key in search)
-                        url += key + '=' + search[key]
+                        url += key + '=' + search[key] + "&";
                 }
             }
             $http.get(url, {
@@ -101,6 +101,9 @@ angular.module('starter').service('resourceService', function ($http) {
             })
             .then(function(res) {
                 resolve(res.data.data);
+            })
+            .catch(function(err) {
+                reject(err);
             })
         })
     }
@@ -129,13 +132,9 @@ angular.module('starter').service('resourceService', function ($http) {
         authenticate: function(token) {
             return new Promise(function(resolve, reject) {
                 $http.post('http://192.168.0.10:8081/auth/facebook', {
-                    // data: {
-                        access_token: token
-                    // }
+                    access_token: token
                 }).success(function(res) {
-                    // jwt = res.data;
                     window.localStorage.setItem("jwt", res.data);
-
                     resolve();
                 }).error(function(err) {
                     reject(err);

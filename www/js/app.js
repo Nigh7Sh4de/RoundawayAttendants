@@ -64,10 +64,6 @@ var app = angular.module('starter', ['ionic', 'ion-datetime-picker', 'credit-car
 app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
 
     var authenticate = function(token) {
-        var loading = $ionicPopup.show({
-            title: 'Loading',
-            template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
-        })
         resourceService.authenticate(token)
         .then(function() {
             loading.close();
@@ -75,14 +71,23 @@ app.controller("LoginController", function ($scope, $stateParams, $state, $ionic
         })
     }
 
+    var loading;
+
     $scope.login = function () {
+        loading = $ionicPopup.show({
+            title: 'Loading',
+            template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
+        })
         facebookConnectPlugin.getLoginStatus(function(response){
+        // FB.getLoginStatus(function(response) {
             if(response.status === 'connected'){
                 authenticate(response.authResponse.accessToken)
             }
             else {
                 facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
+                // FB.login(function(response) {
                     authenticate(response.authResponse.accessToken);
+                // });
                 }, function(err) {
                     $ionicPopup.alert({
                         title: "Oops!",

@@ -18,7 +18,7 @@ angular.module('starter').controller("ResourceList", function($scope, $statePara
     }
 
     $scope.viewResourceDetails = function(type, id) {
-        $state.go('resourceDetails', {
+        $state.go('searchCar', {
             type: type,
             id: id
         })

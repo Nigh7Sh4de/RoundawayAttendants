@@ -15,26 +15,23 @@
 			Car not found
 		</div>
 		<div class="result" ng-show="car">
-			<div class="item item-divider">
-				Found car!
-			</div>
 			<div class="item">
 				<span class="item-label">{{car.license.toUpperCase()}}</span>
 				<span class="item-note">License</span>
 			</div>
 			<h4 class="muted">Next booking in this spot</h4>
 			<div class="availability-preview empty" ng-show="!car.nextBooking">
-				<div class="padding">This car has no more booking in this spot</div>
+				<div class="padding">This car has no future booking in this spot</div>
 			</div>
-			<div class="availability-preview" ng-show="car.nextBooking">
+			<div class="availability-preview" ng-class="{later: car.nextBooking.later}" ng-show="car.nextBooking">
 				<div class="preview-start">
-					{{nextBooking.start | date: "MM/dd/yyyy H:mm"}}
+					{{car.nextBooking.start | date: "MM/dd/yyyy H:mm"}}
 				</div>
 				<div class="divider">
 					~
 				</div>
 				<div class="preview-end">
-					{{nextBooking.end | date: "MM/dd/yyyy H:mm"}}
+					{{car.nextBooking.end | date: "MM/dd/yyyy H:mm"}}
 				</div>
 			</div>
 		</div>
