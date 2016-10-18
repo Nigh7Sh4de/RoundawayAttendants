@@ -1,4 +1,4 @@
-angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $rootScope, $state, $ionicModal, $ionicPopup, $ionicHistory, $http, resourceService) {
+angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $rootScope, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService) {
     
     var getResource = function() {
         resourceService.getResource($stateParams.type, $stateParams.id)
@@ -59,46 +59,26 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         else if ($stateParams.type === 'lots') {
             $scope.request.deviation = 1000*60*60*24*365*3;
 
-            $http.put('http://192.168.0.10:8081/api/lots/' + $stateParams.id + '/available/check', 
-                $scope.request, {
-                headers: {
-                    Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+            resourceService.checkAvailability($scope.request)
+            .then(function(spots) {
+                if (spots.exact.length) {
+                    $scope.range_is_available = true;
                 }
-            })
-            .then(function(response) {
-                
-                // $scope.$apply(function() {
-                    if (response.data.data.exact.length) {
-                        $scope.range_is_available = true;
-                    }
-                    // $scope.options = response.data.data.exact.map(function(spot) {
-                    //     spot.available = new ranger(spot.available, Date);
-                    //     var range = spot.available.nextRange($scope.request.start);
-                    //     return {
-                    //         start: range.start,
-                    //         end: range.end,
-                    //         spot: spot.id,
-                    //         address: spot.location.address,
-                    //         price: spot.price.perHour
-                    //     }
-                    // });
-                    // if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
-                    else {
-                        $scope.options = response.data.data.similar.map(function(spot) {
-                            spot.available = new ranger(spot.available, Date);
-                            var range = spot.available.nextRange($scope.request.start);
-                            return {
-                                start: range.start,
-                                end: range.end,
-                                spot: spot.id,
-                                address: spot.location.address,
-                                price: spot.price.perHour
-                            }
-                        });
-                        if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
-                        if (!$scope.option.length) $scope.range_is_available = false;
-                    }
-                // });
+                else {
+                    $scope.options = spots.similar.map(function(spot) {
+                        spot.available = new ranger(spot.available, Date);
+                        var range = spot.available.nextRange($scope.request.start);
+                        return {
+                            start: range.start,
+                            end: range.end,
+                            spot: spot.id,
+                            address: spot.location.address,
+                            price: spot.price.perHour
+                        }
+                    });
+                    if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
+                    if (!$scope.option.length) $scope.range_is_available = false;
+                }
             })
             .catch(function(err) {
                 $scope.range_is_available = false;
@@ -189,22 +169,10 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
     $scope.processBooking = function(payment) {
         console.log('Please just fucking work');
         $scope.request.createCarIfNotInSystem = true;
-        $http.put('http://192.168.0.10:8081/api/spots/' + $scope.request.spot + '/bookings', 
-            $scope.request, {
-            headers: {
-                Authorization: 'JWT ' + window.localStorage.getItem("jwt")
-            }
-        })
+        resourceService.createBooking($scope.request) 
         .then(function(response) {
             if (!payment) return Promise.resolve()
-            return $http.put('http://192.168.0.10:8081/api/bookings/' + response.data.data.bookings[0].id + '/pay', 
-                {
-                    token: payment
-                }, {
-                headers: {
-                    Authorization: 'JWT ' + window.localStorage.getItem("jwt")
-                }
-            });
+            else return resourceService.payBooking(payment);
         })
         .then(function() {
             loading.close();
