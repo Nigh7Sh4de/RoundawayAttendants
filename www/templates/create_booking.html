@@ -3,23 +3,6 @@
 		<h1 class="title">Create Booking</h1>
 	</div>
 	<form>
-		<!--<h4 class="muted">Next available range:</h4>
-		<div class="availability-preview empty" ng-if="!nextRange">
-			<div class="item-label">
-				There are no more available ranges for spot from the requested time
-			</div>
-		</div>
-		<div class="availability-preview" ng-if="nextRange">
-			<div class="preview-start">
-				{{nextRange.start | date: "MM/dd/yyyy H:mma"}}
-			</div>
-			<div class="divider">
-				~
-			</div>
-			<div class="preview-to">
-				{{nextRange.end | date: "MM/dd/yyyy H:mma"}}
-			</div>
-		</div>-->
 		<h4>
 			<center>Enter the duration you would like:</center>
 		</h4>
@@ -32,9 +15,6 @@
 			</div>
 		</div>
 		<button class="button button-full button-balanced" ng-click="checkAvailability()">Check Availability</button>
-		<!--<div class="booking-price-preview">
-			<h1>{{price | currency : '$' : 2}}</h4>
-		</div>-->
 		<div class="range-is-available" ng-show="range_is_available === true">
 			<i class="icon ion-checkmark balanced"></i>
 		</div>

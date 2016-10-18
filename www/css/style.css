@@ -1,8 +1,3 @@
-/**
-Facebook: #3b5998
-
-**/
-
 .muted {
     color: #909090;
 }
@@ -66,7 +61,7 @@ button.button-squish {
 }
 
 .button.button-facebook {
-    background-color: #3b5998; /*url('../img/FB-f-Logo__blue_50.png') no-repeat 0 0 / 10px 10px;*/
+    background-color: #3b5998;
     color: white;
 }
 
@@ -78,7 +73,7 @@ button.button-squish {
 
 
 #loginPage {
-    background: url('../img/BKGD_with_logo.jpg') no-repeat center top / 100%;
+    background: url('../img/BKGD_with_logo.jpg') no-repeat center top / 100% 100%;
 }
 
 #loginPage .login-page-container {
@@ -157,12 +152,6 @@ button.button-squish {
     width: 50%;
 }
 
-/*#createBookingPage button.button-submit {
-    width: 100%;
-    height: 60pt;
-    font-size: 1.6em;
-}*/
-
 #createBookingPage .range-is-available {
     display: flex;
     font-size: 100pt;
@@ -224,8 +213,6 @@ button.button-squish {
 #resourcesPage .list {
     margin-top: 30pt;
 }
-
-
 
 #selectAvailability {
     display: flex;
