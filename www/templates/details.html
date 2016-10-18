@@ -4,45 +4,12 @@
 		<h1 class="title">Details</h1>
 		<button class="button button-calm" on-tap="searchCarsInResource()">Cars</button>
 	</div>
-
 	<div class="list">
-		<!--<div class="item item-divider">Details</div>-->
 		<div class="item">
 			<span class="item-label">{{resource.location.address}}</span>
 			<span class="item-note">Address</span>
 		</div>
-		<!--<div class="item">
-			<span class="item-label">{{resource.description}}</span>
-			<span class="item-note">Description</span>
-		</div>
-		<div class="item">
-			<span class="item-label">${{resource.price.perHour}}<span class="muted">/hour</span></span>
-			<span class="item-note">Price</span>
-		</div>-->
-
 		<div class="item item-divider">Availability</div>
-		<!--<div class="item item-toggle">
-			<!--<span class="item-label">Generic</span>
-			<label class="toggle toggle-positive">
-                <div class="signal-light" ng-class="{on: resource.generic, off: !resource.generic}"></div>
-            </label>
-		</div>-->
-		<!--<div class="item item-icon-left item-icon-right" on-tap="addAvailability($event)">
-			<i class="icon ion-plus"></i>
-			<span class="item-label">
-                Add
-                <span class="muted">an availability range</span>
-			</span>
-			<i class="icon ion-chevron-right"></i>
-		</div>
-		<div class="item item-icon-left item-icon-right" on-tap="removeAvailability($event)">
-			<i class="icon ion-minus"></i>
-			<span class="item-label">
-                Remove
-                <span class="muted">an availability range</span>
-			</span>
-			<i class="icon ion-chevron-right"></i>
-		</div>-->
 		<ion-content class="item">
 			<div class="item muted" ng-if="!resource.available.ranges || !resource.available.ranges.length">
 				<span class="item-label">No availability ranges have been defined</span>

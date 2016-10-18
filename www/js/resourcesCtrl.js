@@ -1,10 +1,9 @@
 angular.module('starter').controller("ResourceList", function($scope, $stateParams, $state, resourceService) {
 
-    // $scope.resources = resourceService;
     $scope.resources = {};
     resourceService.getResource('lots')
     .then(function(lots) {
-        $scope.resources = Object.assign({}, $scope.resources, {lots: lots})
+        $scope.resources.lots = lots;
     })
     resourceService.getResource('spots')
     .then(function(spots) {

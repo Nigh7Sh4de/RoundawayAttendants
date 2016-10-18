@@ -15,7 +15,6 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
 
     $scope.findCar = function (license) {
         license = license.toUpperCase();
-        // $scope.carNotFound = false;
         $scope.car = null;
         resourceService.getResource('cars', {
             license: license,
@@ -45,7 +44,6 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
             }
         })
         .catch(function(err) {
-            // console.error(err);
             $scope.car = {
                 license: license
             }
