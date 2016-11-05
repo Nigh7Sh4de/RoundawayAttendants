@@ -1,6 +1,6 @@
 angular.module('starter').service('resourceService', function ($http) {
 
-    var base_url = 'http://192.168.0.10:8081';
+    var base_url = 'http://roundaway.com:8081';
 
     var getResource = function (type, search) {
         return new Promise(function (resolve, reject) {
