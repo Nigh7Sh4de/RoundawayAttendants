@@ -11,9 +11,6 @@
             </label>
 			<button class="button button-positive icon-right ion-search" on-tap="findCar(carSearch)"></button>
 		</div>
-		<div class="item muted" ng-show="carNotFound">
-			Car not found
-		</div>
 		<div class="result" ng-show="car">
 			<div class="item">
 				<span class="item-label">{{car.license.toUpperCase()}}</span>
