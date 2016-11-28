@@ -42,6 +42,7 @@ angular.module('starter').controller("SearchCar", function ($scope, $stateParams
                     $scope.$apply();
                 })
             }
+            else throw 'not found'
         })
         .catch(function(err) {
             $scope.car = {

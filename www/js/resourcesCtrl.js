@@ -5,7 +5,9 @@ angular.module('starter').controller("ResourceList", function($scope, $statePara
     .then(function(lots) {
         $scope.resources.lots = lots;
     })
-    resourceService.getResource('spots')
+    resourceService.getResource('spots', {
+        reserved: true
+    })
     .then(function(spots) {
         $scope.resources.spots = spots
     })
