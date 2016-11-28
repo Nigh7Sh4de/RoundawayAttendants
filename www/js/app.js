@@ -65,6 +65,7 @@ app.controller("LoginController", function ($scope, $stateParams, $state, $ionic
 
     $scope.login = function () {
 
+<<<<<<< HEAD
         // resourceService.loadFakeData();
         // $state.go('resourceList');
 
@@ -94,6 +95,30 @@ app.controller("LoginController", function ($scope, $stateParams, $state, $ionic
                     });
                 }
             });
+=======
+        resourceService.loadFakeData();
+        $state.go('resourceList');
+
+        // loading = $ionicPopup.show({
+        //     title: 'Loading',
+        //     template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
+        // })
+        // facebookConnectPlugin.getLoginStatus(function(response){
+        //     if(response.status === 'connected'){
+        //         authenticate(response.authResponse.accessToken)
+        //     }
+        //     else {
+        //         facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
+        //             authenticate(response.authResponse.accessToken);
+        //         }, function(err) {
+        //             $ionicPopup.alert({
+        //                 title: "Oops!",
+        //                 template: err.errorMessage || err
+        //             })
+        //         });
+        //     }
+        // });
+>>>>>>> 61c6b94a59c23851c1b1ea33cd259550e2aa7d9f
     }
 
 });
