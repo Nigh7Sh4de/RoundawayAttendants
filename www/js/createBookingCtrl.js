@@ -38,7 +38,10 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
             if ($scope.resource.available.checkRange(
                 $scope.request.start,
                 $scope.request.end
-            )) $scope.range_is_available = true; 
+            )) {
+                $scope.range_is_available = true;
+                $scope.request.spot = $scope.resource.id
+            } 
             else {
                 var start = $scope.request.start;
                 $scope.options = [];
@@ -58,11 +61,12 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         }
         else if ($stateParams.type === 'lots') {
             $scope.request.deviation = 1000*60*60*24*365*3;
-
-            resourceService.checkAvailability($scope.request)
+            $scope.request.lot = $stateParams.id;
+            resourceService.checkLotAvailability($scope.request)
             .then(function(spots) {
                 if (spots.exact.length) {
                     $scope.range_is_available = true;
+                    $scope.request.spot = spots.exact[0].id;
                 }
                 else {
                     $scope.options = spots.similar.map(function(spot) {
@@ -79,9 +83,11 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
                     if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
                     if (!$scope.option.length) $scope.range_is_available = false;
                 }
+                $scope.$apply();
             })
             .catch(function(err) {
                 $scope.range_is_available = false;
+                $scope.$apply()
             })
         }
     }
@@ -98,13 +104,16 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
 
 
         $scope.request = {
-            address: $scope.request.address || resource.location.address,
+            address: $scope.request.address || $scope.resource.location.address,
             license: $scope.car.license,
             start: $scope.request.start,
             end: $scope.request.end,
             price: price,
             spot: $scope.request.spot
         }
+
+        if ($stateParams.type === 'lots')
+            $scope.request.lot = $stateParams.id
 
 
         $scope.modal.show();
@@ -140,15 +149,23 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
                             title: 'Loading',
                             template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
                         })
-                        Stripe.card.createToken($scope.payment, function(status, stripe_res) {
-                            if (stripe_res.error) {
-                                return $ionicPopup.alert({
-                                    title: 'Oops!',
-                                    template: 'Payment information was invalid'
-                                })
-                            }
-                            else paymentPopup.close(stripe_res.id);
-                        });
+                        loading.close()
+                        if ($scope.payment.number === 123) 
+                            $ionicPopup.alert({
+                                title: 'Oops!',
+                                template: 'Payment information was invalid'
+                            })
+                        else
+                            paymentPopup.close('token')
+                        // Stripe.card.createToken($scope.payment, function(status, stripe_res) {
+                        //     if (stripe_res.error) {
+                        //         return $ionicPopup.alert({
+                        //             title: 'Oops!',
+                        //             template: 'Payment information was invalid'
+                        //         })
+                        //     }
+                        //     else paymentPopup.close(stripe_res.id);
+                        // });
                     }
                 }]
             })
@@ -167,7 +184,6 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
     }
 
     $scope.processBooking = function(payment) {
-        console.log('Please just fucking work');
         $scope.request.createCarIfNotInSystem = true;
         resourceService.createBooking($scope.request) 
         .then(function(response) {
@@ -182,7 +198,7 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
             }).then(function(res) {
                 $scope.modal.hide();
                 $rootScope.$broadcast('refresh-resources');
-                $state.go('resourceDetails', $stateParams);
+                $state.go('searchCar', $stateParams);
             })
         })
     }

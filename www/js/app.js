@@ -52,30 +52,48 @@ app.controller("LoginController", function ($scope, $stateParams, $state, $ionic
             loading.close();
             $state.go('resourceList');
         })
+        .catch(function(err){
+            loading.close()
+            $ionicPopup.alert({
+                title: "Oops!",
+                template: err.errorMessage || err
+            })
+        })
     }
 
     var loading;
 
     $scope.login = function () {
+
+        // resourceService.loadFakeData();
+        // $state.go('resourceList');
+
         loading = $ionicPopup.show({
             title: 'Loading',
             template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
         })
-        facebookConnectPlugin.getLoginStatus(function(response){
-            if(response.status === 'connected'){
-                authenticate(response.authResponse.accessToken)
-            }
-            else {
-                facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
-                    authenticate(response.authResponse.accessToken);
-                }, function(err) {
-                    $ionicPopup.alert({
-                        title: "Oops!",
-                        template: err.errorMessage || err
-                    })
-                });
-            }
-        });
+        if (resourceService.mode === 'debug') {
+            resourceService.fakeAuthenticate()
+            loading.close()
+            $state.go('resourceList')
+        }
+        else
+            facebookConnectPlugin.getLoginStatus(function(response){
+                if(response.status === 'connected'){
+                    authenticate(response.authResponse.accessToken)
+                }
+                else {
+                    facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
+                        authenticate(response.authResponse.accessToken);
+                    }, function(err) {
+                        loading.close()
+                        $ionicPopup.alert({
+                            title: "Oops!",
+                            template: err.errorMessage || err
+                        })
+                    });
+                }
+            });
     }
 
 });

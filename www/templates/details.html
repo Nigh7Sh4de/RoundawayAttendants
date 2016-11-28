@@ -5,7 +5,10 @@
 		<button class="button button-calm" on-tap="searchCarsInResource()">Cars</button>
 	</div>
 	<div class="list">
-		<div class="item">
+		<button class="button button-positive button-full" on-tap="viewCars()" ng-disabled="!range_is_available">Cars</button>
+		<button class="button button-energized button-full" on-tap="viewCars()" ng-disabled="!range_is_available">Bookings</button>
+
+		<!--<div class="item">
 			<span class="item-label">{{resource.location.address}}</span>
 			<span class="item-note">Address</span>
 		</div>
@@ -19,6 +22,6 @@
 				<span>~</span>
 				<span class="item-label">{{availability.end | date: "MM/dd/yyyy H:mm"}}</span>
 			</div>
-		</ion-content>
+		</ion-content>-->
 	</div>
 </ion-view>
