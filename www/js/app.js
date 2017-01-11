@@ -70,7 +70,7 @@ app.controller("LoginController", function ($scope, $stateParams, $state, $ionic
         title: 'Loading',
         template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
     })
-    if (resourceService.mode === 'debug') {
+    if (resourceService.OFFLINE_ONLY) {
         resourceService.fakeAuthenticate()
         loading.close()
         $state.go('resourceList')
