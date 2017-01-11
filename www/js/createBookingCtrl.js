@@ -23,7 +23,6 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         }
     }
     getResource();
-    $scope.$on('refresh-resources', getResource);
     
     $ionicModal.fromTemplateUrl('templates/confirm_booking.html', {
         scope: $scope,
@@ -200,8 +199,7 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
                 template: 'Your booking has been created!'
             }).then(function(res) {
                 $scope.modal.hide();
-                $rootScope.$broadcast('refresh-resources');
-                $state.go('searchCar', $stateParams);
+                $state.go('searchCar', $stateParams, {reload: true});
             })
         })
     }

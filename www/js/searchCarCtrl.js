@@ -1,9 +1,8 @@
 angular.module('starter').controller("SearchCar", function ($scope, $stateParams, $state, $ionicHistory, resourceService) {
 
-    $scope.$on('refresh-resources', function() {
+    $scope.$on('$ionicView.enter', function() {
         $scope.car = null;
-    });
-
+    })
 
     $scope.back = function () {
         $ionicHistory.goBack();
