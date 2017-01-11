@@ -93,6 +93,9 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
     }
 
     $scope.setOption = function(option) {
+        var _dur = $scope.request.end - $scope.request.start;
+        if (option.end - option.start > _dur)
+            option.end = new Date(option.start.valueOf() + _dur)
         $scope.request = option;
         $scope.checkAvailability();
     }
