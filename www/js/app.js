@@ -35,8 +35,13 @@ var app = angular.module('starter', ['ionic', 'ion-datetime-picker', 'credit-car
                 templateUrl: 'templates/search_car.html',
                 controller: 'SearchCar'
             })
-            .state('resourceList', {
+            .state('home', {
                 url: '/',
+                templateUrl: 'templates/home.html',
+                controller: 'Home'
+            })
+            .state('resourceList', {
+                url: '/manage',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
             });
