@@ -2,6 +2,12 @@
     color: #909090;
 }
 
+#map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
 .signal-light {
     width: 27px;
     height: 27px;
@@ -71,6 +77,11 @@ button.button-squish {
     border-right: 1px solid rgba(255,255,255,0.5);
 }
 
+#homePage .home-page-container {
+    display: flex;
+    flex-flow: column;
+    height: calc(100% - 50px);
+}
 
 #loginPage {
     background: url('../img/BKGD_with_logo.jpg') no-repeat center top / 100% 100%;

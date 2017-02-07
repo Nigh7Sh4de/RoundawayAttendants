@@ -1,6 +1,6 @@
 Stripe.setPublishableKey("pk_test_WwMFp1CE94C8P8QLtPrzW5Lq"); 
 
-var app = angular.module('starter', ['ionic', 'ion-datetime-picker', 'credit-cards'])
+var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker', 'credit-cards'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
