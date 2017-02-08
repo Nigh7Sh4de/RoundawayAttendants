@@ -44,8 +44,12 @@ var app = angular.module('starter', ['ionic', 'ion-datetime-picker', 'credit-car
                 url: '/manage',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
+            })
+            .state('settings', {
+                url:'/settings',
+                templateUrl: 'templates/settings.html',
+                controller: 'SettingsCtrl'
             });
-
         $urlRouterProvider.otherwise('/login');
     })
 
