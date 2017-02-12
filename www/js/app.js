@@ -48,7 +48,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
             .state('settings', {
                 url:'/settings',
                 templateUrl: 'templates/settings.html',
-                controller: 'SettingsCtrl'
+                controller: 'Settings'
             });
         $urlRouterProvider.otherwise('/');
     })
