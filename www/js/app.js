@@ -19,6 +19,7 @@ var app = angular.module('starter',
     })
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
+            /** Other routes **/
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
@@ -29,34 +30,58 @@ var app = angular.module('starter',
                 templateUrl: 'templates/create_booking.html',
                 controller: 'CreateBooking'
             })
-            .state('resourceDetails', {
-                url: '/:type/:id',
-                templateUrl: 'templates/details.html',
-                controller: 'ResourceDetails'
-            })
+            // .state('resourceDetails', {
+            //     url: '/:type/:id',
+            //     templateUrl: 'templates/details.html',
+            //     controller: 'ResourceDetails'
+            // })
             .state('searchCar', {
                 url: '/:type/:id/cars',
                 templateUrl: 'templates/search_car.html',
                 controller: 'SearchCar'
-            })
-            .state('home', {
-                url: '/',
-                templateUrl: 'templates/home.html',
-                controller: 'Home'
             })
             .state('resourceList', {
                 url: '/manage',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
             })
-            .state('settings', {
-                url:'/settings',
-                templateUrl: 'templates/settings.html',
-                controller: 'Settings'
-            });
-        $urlRouterProvider.otherwise('/');
-    })
 
+            /** Tab bar routes **/
+            .state('tabsController.home', {
+                url: '/homePage',
+                views: {
+                    'tab1': {
+                        templateUrl: 'templates/home.html',
+                        controller: 'Home'
+                    }
+                }
+            })
+            .state('tabsController', {
+                url: '/tabsBarController',
+                templateUrl: 'templates/tabsController.html',
+                abstract:true
+            })
+            .state('tabsController.reservations', {
+                url: '/reservations',
+                views: {
+                    'tab2': {
+                        templateUrl: 'templates/reservations.html',
+                        controller: 'Reservations'
+                    }
+                }
+            })
+            .state('tabsController.settings', {
+                url:'/settings',
+                views: {
+                    'tab3': {
+                        templateUrl: 'templates/settings.html',
+                        controller: 'Settings'
+                    }
+                }
+            });
+        $urlRouterProvider.otherwise('/tabsBarController/homePage');
+    })
+    
 app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
 
     var authenticate = function(token) {
