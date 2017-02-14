@@ -3,9 +3,10 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
     var spots = [];
     var updateSpots = function() {
         resourceService.getNearestSpots($scope.map.getCenter())
-        .then(function(result) {
-            spots = spots.concat(result);
-            spots.forEach(function(spot) {
+        .then(function(results) {
+            results.forEach(function(spot) {
+                if (spots.filter(function(s) { return s.id === spot.id }).length) return;
+                spots.push(spot);
                 var marker = new google.maps.Marker({
                     map: $scope.map,
                     animation: google.maps.Animation.DROP,
@@ -43,6 +44,7 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
                 bounds.extend(place.geometry.location);
         });
         $scope.map.fitBounds(bounds);
+        updateSpots();
     });
 
 
@@ -57,15 +59,8 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
         updateSpots();
     })
 
-    var dragging = false;
-    google.maps.event.addListener($scope.map, 'dragstart', function() {
-        dragging = true;
-    })
     google.maps.event.addListener($scope.map, 'dragend', function() {
-        dragging = true;
-    })
-    google.maps.event.addListener($scope.map, 'center_changed', function() {
-        if (!dragging) updateSpots();
+        updateSpots();
     })
 
     var options = {timeout: 10000, enableHighAccuracy: false};
