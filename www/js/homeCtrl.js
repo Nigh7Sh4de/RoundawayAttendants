@@ -11,7 +11,14 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
                     map: $scope.map,
                     animation: google.maps.Animation.DROP,
                     icon: icon,
+                    spot: spot,
                     position: new google.maps.LatLng(spot.location.coordinates[0], spot.location.coordinates[1])
+                })
+                marker.addListener('click', function(marker) {
+                    $state.go('searchCar', {
+                        type: 'spots',
+                        id: spot.id
+                    })
                 })
             })
         })
