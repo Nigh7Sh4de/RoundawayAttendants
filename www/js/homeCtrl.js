@@ -1,12 +1,20 @@
-angular.module('starter').controller("Home", function($scope, $stateParams, $state, $cordovaGeolocation) {
+angular.module('starter').controller("Home", function($scope, $stateParams, $state, $cordovaGeolocation, resourceService) {
 
-    var spots = [{
-        location: { coordinates: [43.65, -79.38]}
-    }, {
-        location: { coordinates: [43.655, -79.385]}
-    }, {
-        location: { coordinates: [43.66, -79.39]}
-    }]
+    var spots = [];
+    var updateSpots = function() {
+        resourceService.getNearestSpots($scope.map.getCenter())
+        .then(function(result) {
+            spots = spots.concat(result);
+            spots.forEach(function(spot) {
+                var marker = new google.maps.Marker({
+                    map: $scope.map,
+                    animation: google.maps.Animation.DROP,
+                    icon: icon,
+                    position: new google.maps.LatLng(spot.location.coordinates[0], spot.location.coordinates[1])
+                })
+            })
+        })
+    }
 
     var mapOptions = {
         center: new google.maps.LatLng(43.656140, -79.381085),
@@ -18,16 +26,10 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
     };
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-
-    $scope.changePlace = function() {
-        console.log('location', $scope.location)
-    }
-
-
     var input = document.getElementById('mapSearch');
     var searchBox = new google.maps.places.SearchBox(input);
     $scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
+    searchBox.bindTo('bounds', $scope.map);
     searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
         if (places.length == 0)
@@ -52,21 +54,25 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
 
     google.maps.event.addListenerOnce($scope.map, 'idle', function() {
         $(".pac-container").attr('data-tap-disabled','true');
-        spots.forEach(function(spot) {
-            var marker = new google.maps.Marker({
-                map: $scope.map,
-                animation: google.maps.Animation.DROP,
-                icon: icon,
-                position: new google.maps.LatLng(spot.location.coordinates[0], spot.location.coordinates[1])
-            })
-        })
+        updateSpots();
+    })
+
+    var dragging = false;
+    google.maps.event.addListener($scope.map, 'dragstart', function() {
+        dragging = true;
+    })
+    google.maps.event.addListener($scope.map, 'dragend', function() {
+        dragging = true;
+    })
+    google.maps.event.addListener($scope.map, 'center_changed', function() {
+        if (!dragging) updateSpots();
     })
 
     var options = {timeout: 10000, enableHighAccuracy: false};
     $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
         $scope.map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
     }, function(error){
-        console.log("Could not get location");
+        console.error("Could not get location", error);
     });
 
 
