@@ -82,10 +82,12 @@ button.button-squish {
     border-right: 1px solid rgba(255,255,255,0.5);
 }
 
+#mainView {
+    height: calc(100% - 48px);
+}
+
 #homePage .home-page-container {
-    display: flex;
-    flex-flow: column;
-    height: calc(100% - 50px);
+    height: 100%;
 }
 
 #loginPage {
