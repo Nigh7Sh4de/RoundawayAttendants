@@ -45,12 +45,11 @@ var app = angular.module('starter',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
             })
-
             /** Tab bar routes **/
             .state('tabsController.home', {
-                url: '/homePage',
+                url: '/',
                 views: {
-                    'tab1': {
+                    'parkingTab': {
                         templateUrl: 'templates/home.html',
                         controller: 'Home'
                     }
@@ -61,25 +60,25 @@ var app = angular.module('starter',
                 templateUrl: 'templates/tabsController.html',
                 abstract:true
             })
-            .state('tabsController.reservations', {
-                url: '/reservations',
-                views: {
-                    'tab2': {
-                        templateUrl: 'templates/reservations.html',
-                        controller: 'Reservations'
-                    }
-                }
-            })
+            // .state('tabsController.reservations', {
+            //     url: '/reservations',
+            //     views: {
+            //         'reservationsTab': {
+            //             templateUrl: 'templates/reservations.html',
+            //             controller: 'Reservations'
+            //         }
+            //     }
+            // })
             .state('tabsController.settings', {
                 url:'/settings',
                 views: {
-                    'tab3': {
+                    'settingsTab': {
                         templateUrl: 'templates/settings.html',
                         controller: 'Settings'
                     }
                 }
             });
-        $urlRouterProvider.otherwise('/tabsBarController/homePage');
+        $urlRouterProvider.otherwise('/tabsBarController/');
     })
     
 app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {

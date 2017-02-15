@@ -12,10 +12,14 @@ angular.module('starter').controller("Settings", function ($scope, $stateParams,
   	}
 
   	$scope.$on('$ionicView.enter', function() {
-     // Code you want executed every time view is opened
-     console.log('Opened!')
-     var profile = userInfoService.getProfileInfo($scope.request)
-     console.log(profile.name)
+        // Code you want executed every time view is opened
+        console.log('Opened!')
+        userInfoService.getProfileInfo().then(function(userInfo) {
+            $scope.profile = userInfo;
+        }).catch(function(err) { 
+            /*some sort of error handling*/ 
+            console.error('Error ' + err + 'retrieving userInfo')
+        });
     })
 
 });
