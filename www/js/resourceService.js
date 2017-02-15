@@ -74,14 +74,17 @@ angular.module('starter').service('resourceService', function ($http) {
     var data = Object.assign({}, init_data)
     window.data = data
 
-    var getNearestSpots = function(coords) {
+    var getNearestSpots = function(coords, duration) {
         if (OFFLINE_ONLY)
-            return Promise.resolve(data.spots);
+            return Promise.resolve(data.spots.filter(function(spot) {
+                return spot.available.check(duration.start);
+            }));
         else
             return new Promise(function(resolve, reject) {
                 var url = base_url + '/api/spots/near?'
-                url += '&lat=' + coords.lat();
                 url += 'long=' + coords.lng();
+                url += '&lat=' + coords.lat();
+                url += '&available=' + duration.start;
                 $http.get(url, {
                     headers: {
                         Authorization: 'JWT ' + window.localStorage.getItem("jwt")

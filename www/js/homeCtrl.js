@@ -1,12 +1,22 @@
 angular.module('starter').controller("Home", function($scope, $stateParams, $state, $cordovaGeolocation, resourceService) {
 
-    var spots = [];
-    var updateSpots = function() {
-        resourceService.getNearestSpots($scope.map.getCenter())
+    var markers = [];
+    $scope.updateSpots = function() {
+        resourceService.getNearestSpots($scope.map.getCenter(), $scope.duration)
         .then(function(results) {
+            markers.forEach(function(marker) {
+                var keepMarker = false;
+                for (var i=0;i<results.length;i++) {
+                    if (results[i].id === marker.spot.id) {
+                        keepMarker = true;
+                        results.splice(i, 1)
+                        break;
+                    }
+                }
+                if (!keepMarker)
+                    marker.setMap(null)
+            })
             results.forEach(function(spot) {
-                if (spots.filter(function(s) { return s.id === spot.id }).length) return;
-                spots.push(spot);
                 var marker = new google.maps.Marker({
                     map: $scope.map,
                     animation: google.maps.Animation.DROP,
@@ -20,8 +30,14 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
                         id: spot.id
                     })
                 })
+                markers.push(marker);
             })
         })
+    }
+
+    $scope.duration = {
+        start: new Date(),
+        end: new Date(new Date().valueOf() + 1000*60*60)
     }
 
     var mapOptions = {
@@ -36,7 +52,6 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
 
     var input = document.getElementById('mapSearch');
     var searchBox = new google.maps.places.SearchBox(input);
-    $scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     searchBox.bindTo('bounds', $scope.map);
     searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
@@ -51,7 +66,7 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
                 bounds.extend(place.geometry.location);
         });
         $scope.map.fitBounds(bounds);
-        updateSpots();
+        $scope.updateSpots();
     });
 
 
@@ -63,11 +78,11 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
 
     google.maps.event.addListenerOnce($scope.map, 'idle', function() {
         $(".pac-container").attr('data-tap-disabled','true');
-        updateSpots();
+        $scope.updateSpots();
     })
 
     google.maps.event.addListener($scope.map, 'dragend', function() {
-        updateSpots();
+        $scope.updateSpots();
     })
 
     var options = {timeout: 10000, enableHighAccuracy: false};

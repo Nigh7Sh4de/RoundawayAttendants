@@ -1,6 +1,20 @@
 <ion-view title="Home" id="homePage">
     <div class="home-page-container">
-        <input type="text" id="mapSearch" />
+        <div class="filter-controls">
+            <input type="text" id="mapSearch" />
+            <button class="button button-clear button-stable tiny" ng-click="showFilter = !showFilter">Filter</button>
+        </div>
         <div id="map" ></div>
+        <div class="map-filter" ng-show="showFilter">
+            <div class="map-filter-cotrols">
+                <div class="item centered" ion-datetime-picker am-pm ng-model="duration.start">
+                    {{duration.start | date: "MM/dd/yyyy H:mm a"}}
+                </div>
+                <div class="item centered" ion-datetime-picker am-pm ng-model="duration.end">
+                    {{duration.end | date: "MM/dd/yyyy H:mm a"}}
+                </div>
+            </div>
+            <input type="button" class="button button-positive" value="Continue" ng-click="showFilter = false; updateSpots()" />
+        </div>
     </div>
 </ion-view>
