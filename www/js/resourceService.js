@@ -9,7 +9,8 @@ angular.module('starter').service('resourceService', function ($http) {
             id: 'l1234567890123456789012345',
             name: 'My awesome lot',
             location: {
-                address: '123 Fake st, Toronto ON' 
+                address: '123 Fake st, Toronto ON' ,
+                coordinates: [43.65, -79.38]
             },
             price: {
                 perHour: 5.00
@@ -26,7 +27,8 @@ angular.module('starter').service('resourceService', function ($http) {
                 end: new Date('01/01/2100')
             }]),
             location: {
-                address: '456 Road ave, Toronto ON'
+                address: '456 Road ave, Toronto ON',
+                coordinates: [43.655, -79.385]
             },
             price: {
                 perHour: 5.00
@@ -40,7 +42,8 @@ angular.module('starter').service('resourceService', function ($http) {
                 end: new Date('01/01/2100')
             }]),
             location: {
-                address: '456 Road ave, Toronto ON'
+                address: '456 Road ave, Toronto ON',
+                coordinates: [43.66, -79.39]
             },
             price: {
                 perHour: 5.00
@@ -55,7 +58,8 @@ angular.module('starter').service('resourceService', function ($http) {
                 end: new Date('01/01/2100')
             }]),
             location: {
-                address: '456 Road ave, Toronto ON'
+                address: '456 Road ave, Toronto ON',
+                coordinates: [43.665, -79.395]
             },
             price: {
                 perHour: 7.50
@@ -69,6 +73,28 @@ angular.module('starter').service('resourceService', function ($http) {
 
     var data = Object.assign({}, init_data)
     window.data = data
+
+    var getNearestSpots = function(coords, duration) {
+        if (OFFLINE_ONLY)
+            return Promise.resolve(data.spots.filter(function(spot) {
+                return spot.available.check(duration.start);
+            }));
+        else
+            return new Promise(function(resolve, reject) {
+                var url = base_url + '/api/spots/near?'
+                url += 'long=' + coords.lng();
+                url += '&lat=' + coords.lat();
+                url += '&available=' + duration.start;
+                $http.get(url, {
+                    headers: {
+                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                    }
+                })
+                .then(function (res) {
+                    resolve(res.data.data);
+                })
+            })
+    }
 
     var getResource = function (type, search) {
         if (OFFLINE_ONLY)
@@ -224,6 +250,7 @@ angular.module('starter').service('resourceService', function ($http) {
             })
         },
         getResource: getResource,
+        getNearestSpots: getNearestSpots,
         // adjustAvailability: adjustAvailability,
         checkLotAvailability: checkLotAvailability,
         createBooking: createBooking,

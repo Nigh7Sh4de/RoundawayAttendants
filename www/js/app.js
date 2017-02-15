@@ -17,9 +17,10 @@ var app = angular.module('starter',
             }
         });
     })
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+        $ionicConfigProvider.backButton.previousTitleText(false).text('');
+
         $stateProvider
-            /** Other routes **/
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
@@ -30,56 +31,33 @@ var app = angular.module('starter',
                 templateUrl: 'templates/create_booking.html',
                 controller: 'CreateBooking'
             })
-            // .state('resourceDetails', {
-            //     url: '/:type/:id',
-            //     templateUrl: 'templates/details.html',
-            //     controller: 'ResourceDetails'
-            // })
+            .state('resourceDetails', {
+                url: '/:type/:id',
+                templateUrl: 'templates/details.html',
+                controller: 'ResourceDetails'
+            })
             .state('searchCar', {
                 url: '/:type/:id/cars',
                 templateUrl: 'templates/search_car.html',
                 controller: 'SearchCar'
+            })
+            .state('home', {
+                url: '/',
+                templateUrl: 'templates/home.html',
+                controller: 'Home'
             })
             .state('resourceList', {
                 url: '/manage',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
             })
-            /** Tab bar routes **/
-            .state('tabsController.home', {
-                url: '/',
-                views: {
-                    'parkingTab': {
-                        templateUrl: 'templates/home.html',
-                        controller: 'Home'
-                    }
-                }
-            })
-            .state('tabsController', {
-                url: '/tabsBarController',
-                templateUrl: 'templates/tabsController.html',
-                abstract:true
-            })
-            // .state('tabsController.reservations', {
-            //     url: '/reservations',
-            //     views: {
-            //         'reservationsTab': {
-            //             templateUrl: 'templates/reservations.html',
-            //             controller: 'Reservations'
-            //         }
-            //     }
-            // })
-            .state('tabsController.settings', {
+            .state('settings', {
                 url:'/settings',
-                views: {
-                    'settingsTab': {
-                        templateUrl: 'templates/settings.html',
-                        controller: 'Settings'
-                    }
-                }
+                templateUrl: 'templates/settings.html',
+                controller: 'Settings'
             });
-        $urlRouterProvider.otherwise('/tabsBarController/');
-    })
+        $urlRouterProvider.otherwise('/');
+    }) 
     
 app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
 
