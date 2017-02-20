@@ -54,11 +54,11 @@ var app = angular.module('starter',
             .state('settings', {
                 url:'/settings',
                 templateUrl: 'templates/settings.html',
-                controller: 'SettingsCtrl'
+                controller: 'Settings'
             });
         $urlRouterProvider.otherwise('/');
-    })
-
+    }) 
+    
 app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
 
     var authenticate = function(token) {
