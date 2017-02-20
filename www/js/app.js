@@ -1,10 +1,6 @@
 Stripe.setPublishableKey("pk_test_WwMFp1CE94C8P8QLtPrzW5Lq"); 
 
-var app = angular.module('starter', 
-    ['ionic', 
-     'ngCordova', 
-     'ion-datetime-picker', 
-     'credit-cards'])
+var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker', 'credit-cards'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -58,7 +54,36 @@ var app = angular.module('starter',
             });
         $urlRouterProvider.otherwise('/');
     }) 
-    
+    .directive('profileBarWidget',['$ionicGesture', 
+        function($ionicGesture) {
+            return {
+                restrict: 'AE',
+                // declare the directive scope as private (and empty)
+                scope: {},
+                // add behaviour to our buttons and use a variable value
+                template:   '<div>'+
+                                '<h2>'+
+                                    '<img src="img/ionic.png" style="width:52px;height:52px;" align="middle"> {{ name }}'+
+                                '</h2>'+
+                            '</div>',
+                // we just declare what we need in the above template
+                controller: function(userInfoService, $scope) {
+                    userInfoService.getProfileInfo().then(function(userInfo) {
+                        $scope.name = userInfo.name;
+                    }).catch(function(err) { 
+                        console.error('Error ' + err + 'retrieving userInfo')
+                        $scope.showAlert(err.message)
+                    });
+                },
+                link: function($scope, $element, $attr) {
+                    $ionicGesture.on('tap', function(e) {
+                        console.log('I got Tapped!')
+                    }, $element);
+                }
+            };
+        }
+    ])
+
 app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
 
     var authenticate = function(token) {
@@ -108,5 +133,4 @@ app.controller("LoginController", function ($scope, $stateParams, $state, $ionic
             }
         });
     }
-
 });

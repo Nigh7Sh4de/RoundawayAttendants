@@ -1,26 +1,22 @@
 angular.module('starter').controller("Settings", function ($scope, $stateParams, $ionicModal, $state, $ionicPopup, userInfoService) {
+  
+  $scope.rating = 42;      
 
 	$ionicModal.fromTemplateUrl('templates/resources.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.modal = modal;
-    })
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+     $scope.modal = modal;
+  })
 
 	$scope.manage = function() {
-    	$scope.modal.show();
-  	}
+    $scope.modal.show();
+  }
 
-  	$scope.$on('$ionicView.enter', function() {
-        // Code you want executed every time view is opened
-        console.log('Opened!')
-        userInfoService.getProfileInfo().then(function(userInfo) {
-            $scope.profile = userInfo;
-        }).catch(function(err) { 
-            console.error('Error ' + err + 'retrieving userInfo')
-            $scope.showAlert(err.message)
-        });
-    })
+  $scope.$on('$ionicView.enter', function() {
+    // Code you want executed every time view is opened
+    console.log('Opened!')
+  })
 
   // An alert dialog
    $scope.showAlert = function(message) {
