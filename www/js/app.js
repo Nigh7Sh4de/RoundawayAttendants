@@ -51,38 +51,39 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
                 url:'/settings',
                 templateUrl: 'templates/settings.html',
                 controller: 'Settings'
+            })
+            .state('profile', {
+                url:'/profile',
+                templateUrl: 'templates/profile.html',
+                controller: 'Profile'
             });
         $urlRouterProvider.otherwise('/');
     }) 
-    .directive('profileBarWidget',['$ionicGesture', 
-        function($ionicGesture) {
-            return {
-                restrict: 'AE',
-                // declare the directive scope as private (and empty)
-                scope: {},
-                // add behaviour to our buttons and use a variable value
-                template:   '<div>'+
-                                '<h2>'+
-                                    '<img src="img/ionic.png" style="width:52px;height:52px;" align="middle"> {{ name }}'+
-                                '</h2>'+
-                            '</div>',
-                // we just declare what we need in the above template
-                controller: function(userInfoService, $scope) {
-                    userInfoService.getProfileInfo().then(function(userInfo) {
-                        $scope.name = userInfo.name;
-                    }).catch(function(err) { 
-                        console.error('Error ' + err + 'retrieving userInfo')
-                        $scope.showAlert(err.message)
-                    });
-                },
-                link: function($scope, $element, $attr) {
-                    $ionicGesture.on('tap', function(e) {
-                        console.log('I got Tapped!')
-                    }, $element);
-                }
-            };
-        }
-    ])
+    .directive('profileBarWidget', function($ionicGesture) {
+        return {
+            restrict: 'AE',
+            // declare the directive scope as private (and empty)
+            scope: {},
+            // add behaviour to our buttons and use a variable value
+            template:   '<a style="display:block" href="#/profile">'+
+                            '<div class="thumbnail">'+
+                                '<img src="img/ionic.png" style="width:60px;height:60px;"'+
+                                    'alt="Not By Design" />'+
+                            '</div>'+
+                            '<div class="profile-name">'+       
+                                '<h3> {{ profile.name }} </h3>'+
+                            '</div></a>',
+            // we just declare what we need in the above template
+            controller: function(userInfoService, $scope) {
+                userInfoService.getProfileInfo().then(function(userInfo) {
+                    $scope.profile = userInfo;
+                }).catch(function(err) {
+                    console.error('Error ' + err + 'retrieving userInfo')
+                    $scope.showAlert(err.message)
+                });
+            }
+        };
+    })
 
 app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
 

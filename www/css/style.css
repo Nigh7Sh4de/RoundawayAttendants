@@ -377,3 +377,26 @@ ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidt
     list-style-type: decimal;
     padding-left: 40px;
 }
+
+/** styling for reusable profile bar */
+div[profile-Bar-Widget] {
+    overflow: auto;
+}
+
+.thumbnail {
+    float: left
+}
+
+.thumbnail img {
+    display: block
+}
+
+.profile-name {
+    border: 3px white;
+    padding-top: 15px;
+    padding-left: 70px;
+}
+
+a, u {
+    text-decoration: none;
+}

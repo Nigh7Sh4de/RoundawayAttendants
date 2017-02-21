@@ -13,11 +13,6 @@ angular.module('starter').controller("Settings", function ($scope, $stateParams,
     $scope.modal.show();
   }
 
-  $scope.$on('$ionicView.enter', function() {
-    // Code you want executed every time view is opened
-    console.log('Opened!')
-  })
-
   // An alert dialog
    $scope.showAlert = function(message) {
      var alertPopup = $ionicPopup.alert({
