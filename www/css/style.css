@@ -380,11 +380,12 @@ ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidt
 
 /** styling for reusable profile bar */
 div[profile-Bar-Widget] {
-    overflow: auto;
+    align-items: center;
+    display: flex;
 }
 
 .thumbnail {
-    float: left
+    float: left;
 }
 
 .thumbnail img {
@@ -392,11 +393,15 @@ div[profile-Bar-Widget] {
 }
 
 .profile-name {
-    border: 3px white;
     padding-top: 15px;
-    padding-left: 70px;
+    padding-left: 20px;
 }
 
 a, u {
     text-decoration: none;
+}
+
+.edit-button {
+    padding-top: 10px;
+    padding-left: 20px;
 }
