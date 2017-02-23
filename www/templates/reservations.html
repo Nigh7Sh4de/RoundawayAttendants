@@ -1,0 +1,21 @@
+<ion-view title="Reservations" id="reservations">
+  <ion-content class="padding">
+      <ion-list>
+        <!-- add a section header -->
+        <ion-item class="item-divider">Upcoming Reservations</ion-item>
+          <!-- iterate thru each item in the list, use $index as item identifier -->
+          <ion-item ng-repeat="item in itemsList track by $index">
+            {{$index}} - {{item.name}} - {{item.room}}
+          </ion-item>
+        </ion-list>
+      <ion-list>
+        <!-- add a section header -->
+        <ion-item class="item-divider">Upcoming Reservations</ion-item>
+          <!-- iterate thru each item in the list, use $index as item identifier -->
+          <ion-item ng-repeat="item in itemsList track by $index">
+            {{$index}} - {{item.name}} - {{item.room}}
+          </ion-item>
+        </ion-list>
+      <ion-list>
+   </ion-content>
+</ion-view>

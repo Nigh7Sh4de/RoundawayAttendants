@@ -5,6 +5,7 @@ angular.module('starter').service('userInfoService', function ($http) {
 
     var init_data = {
     	user: {
+            id: 12244486314,
 			profile: {
 				name:"Test User"
 			},
@@ -19,11 +20,14 @@ angular.module('starter').service('userInfoService', function ($http) {
 				secret: ""
 			},
 			admin: false
-    	}
+    	},
+
+        bookings: [],
     }
 
     var data = Object.assign({}, init_data)
     window.data = data
+    var currentUser = data.user
 
     var getProfileInfo = function() {
         if (OFFLINE_ONLY)
@@ -44,6 +48,32 @@ angular.module('starter').service('userInfoService', function ($http) {
                         Authorization: 'JWT ' + window.localStorage.getItem("jwt")
                     }
                 })
+                .then(function (response) {
+                    currentUser = response.data.data;
+                    resolve(response.data.data);
+                })
+            })
+    }
+
+    var getUserBookings = function() {
+        if (OFFLINE_ONLY)
+            return new Promise(function (resolve, reject){
+                var profile = data.user.profile;
+                if (!profile) {
+                    profile = {
+                        name: "Test User",
+                    }
+                }
+                resolve(profile);
+            })
+        else
+            return new Promise(function (resolve, reject) {
+                var url = base_url + '/api/users/'+ currentUser.id +'bookings';
+                $http.get(url, {
+                    headers: {
+                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                    }
+                })
                 .then(function (res) {
                     resolve(res.data.data);
                 })
@@ -52,6 +82,8 @@ angular.module('starter').service('userInfoService', function ($http) {
 
     return {
         OFFLINE_ONLY: OFFLINE_ONLY,
-        getProfileInfo: getProfileInfo
+        getProfileInfo: getProfileInfo,
+        getUserBookings: getUserBookings
     }
 });
+

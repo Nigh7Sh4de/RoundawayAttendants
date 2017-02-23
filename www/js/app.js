@@ -51,6 +51,11 @@ var app = angular.module('starter',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
             })
+            .state('reservations', {
+                url: '/reservations',
+                templateUrl: 'templates/reservations.html',
+                controller: 'Reservations'
+            })
             .state('settings', {
                 url:'/settings',
                 templateUrl: 'templates/settings.html',
