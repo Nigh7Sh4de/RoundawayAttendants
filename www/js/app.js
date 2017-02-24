@@ -41,15 +41,15 @@ var app = angular.module('starter',
                 templateUrl: 'templates/search_car.html',
                 controller: 'SearchCar'
             })
-            .state('home', {
-                url: '/',
-                templateUrl: 'templates/home.html',
-                controller: 'Home'
-            })
             .state('resourceList', {
                 url: '/manage',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
+            })
+            .state('home', {
+                url: '/',
+                templateUrl: 'templates/home.html',
+                controller: 'Home'
             })
             .state('reservations', {
                 url: '/reservations',
@@ -113,5 +113,4 @@ app.controller("LoginController", function ($scope, $stateParams, $state, $ionic
             }
         });
     }
-
 });
