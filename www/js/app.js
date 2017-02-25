@@ -13,7 +13,6 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
             }
         });
     })
-
     .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.backButton.previousTitleText(false).text('');
 
@@ -60,33 +59,15 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
             });
         $urlRouterProvider.otherwise('/');
     }) 
-    
     .directive('profileBarWidget', function($ionicGesture) {
         return {
             restrict: 'AE',
             // declare the directive scope as private (and empty)
             scope: {},
             // add behaviour to our buttons and use a variable value
-            template:   '<div class="thumbnail">'+
-                            '<img src="img/ionic.png" style="width:60px;height:60px;"'+
-                                'alt="Not By Design" />'+
-                        '</div>'+
-                        '<div class="profile-name">'+       
-                            '<h3> {{ profile.name }} </h3>'+
-                        '</div>'+
-                        '<div class="edit-button">'+
-                            '<button class="button button-positive button-small"'+
-                               'onclick="window.location=\'#/profile\'">Edit</button>'+
-                        '</div>',
+            templateUrl: 'templates/profile_bar.html',
             // we just declare what we need in the above template
-            controller: function(userInfoService, $scope) {
-                userInfoService.getProfileInfo().then(function(userInfo) {
-                    $scope.profile = userInfo;
-                }).catch(function(err) {
-                    console.error('Error ' + err + 'retrieving userInfo')
-                    alert("Opps!\nAn error occured retrieving your user profile");
-                });
-            }
+            controller: 'ProfileBarController'
         };
     })
 
