@@ -7,7 +7,7 @@ angular.module('starter').service('userInfoService', function ($http) {
     	user: {
             id: 12244486314,
 			profile: {
-				name:"Test User"
+				name:"Happy Gilmore"
 			},
 			authid: {
     			facebook: "",
@@ -35,7 +35,7 @@ angular.module('starter').service('userInfoService', function ($http) {
                 var profile = data.user.profile;
                 if (!profile) {
                     profile = {
-                        name: "Test User",
+                        name: "Happy Gilmore",
                     }
                 }
                 resolve(profile);
