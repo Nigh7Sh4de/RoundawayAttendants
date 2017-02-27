@@ -4,8 +4,8 @@
         <!-- add a section header -->
         <ion-item class="item-divider">Upcoming Reservations</ion-item>
         <!-- iterate thru each item in the list, use $index as item identifier -->
-        <ion-item ng-repeat="item in itemsList track by $index">
-            {{$index}} - {{item.name}} - {{item.room}}
+        <ion-item class="item-borderless" ng-repeat="reservation in reservations track by $end_date">
+
         </ion-item>
       </ion-list>
   </ion-content>
