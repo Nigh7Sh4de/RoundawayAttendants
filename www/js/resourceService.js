@@ -2,11 +2,6 @@ var OFFLINE_ONLY = true;
 
 angular.module('starter').service('resourceService', function ($http) {
 
-    Date.prototype.addHours = function(h){
-        this.setTime(this.getTime() + (h*60*60*1000)); 
-        return this;
-    }
-
     var base_url = 'http://roundaway.com:8081';
 
     var init_data = {
