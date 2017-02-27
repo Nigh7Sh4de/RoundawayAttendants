@@ -53,35 +53,9 @@ angular.module('starter').service('userInfoService', function ($http) {
             })
     }
 
-    var getUserBookings = function() {
-        if (OFFLINE_ONLY)
-            return new Promise(function (resolve, reject){
-                var profile = data.user.profile;
-                if (!profile) {
-                    profile = {
-                        name: "Test User",
-                    }
-                }
-                resolve(profile);
-            })
-        else
-            return new Promise(function (resolve, reject) {
-                var url = base_url + '/api/users/'+ currentUser.id +'bookings';
-                $http.get(url, {
-                    headers: {
-                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
-                    }
-                })
-                .then(function (res) {
-                    resolve(res.data.data);
-                })
-            })
-    }
-
     return {
         OFFLINE_ONLY: OFFLINE_ONLY,
-        getProfileInfo: getProfileInfo,
-        getUserBookings: getUserBookings
+        getProfileInfo: getProfileInfo
     }
 });
 
