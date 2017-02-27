@@ -5,7 +5,7 @@ angular.module('starter').service('userInfoService', function ($http) {
 
     var init_data = {
     	user: {
-            id: 12244486314,
+            id: '12244486314',
 			profile: {
 				name:"Happy Gilmore"
 			},
@@ -20,9 +20,7 @@ angular.module('starter').service('userInfoService', function ($http) {
 				secret: ""
 			},
 			admin: false
-    	},
-
-        bookings: [],
+    	}
     }
 
     var data = Object.assign({}, init_data)
