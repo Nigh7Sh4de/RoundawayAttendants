@@ -229,7 +229,6 @@ angular.module('starter').service('resourceService', function ($http) {
     //         })
     //     })
     // }
-
     return {
         OFFLINE_ONLY: OFFLINE_ONLY,
 
