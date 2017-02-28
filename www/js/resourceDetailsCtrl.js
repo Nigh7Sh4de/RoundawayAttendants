@@ -8,8 +8,16 @@ angular.module('starter').controller("ResourceDetails", function ($scope, $state
         $ionicHistory.goBack();
     }
 
-    $scope.searchCarsInResource = function () {
-        $state.go('searchCar', $stateParams)
+    $scope.request = {
+        start: new Date(),
+        end: new Date(new Date().valueOf() + 1000*60*60)
     }
+
+
+    // $scope.searchCarsInResource = function () {
+    //     $state.go('searchCar', $stateParams)
+    // }
+
+
 
 });
