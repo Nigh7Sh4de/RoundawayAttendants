@@ -25,7 +25,7 @@ angular.module('starter').controller("Home", function($scope, $stateParams, $sta
                     position: new google.maps.LatLng(spot.location.coordinates[0], spot.location.coordinates[1])
                 })
                 marker.addListener('click', function(marker) {
-                    $state.go('searchCar', {
+                    $state.go('resourceDetails', {
                         type: 'spots',
                         id: spot.id
                     })

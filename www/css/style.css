@@ -1,6 +1,10 @@
 /*Colors*/
 .blue {
-    color: #0459C0;
+    color: #0459C0!important;
+}
+
+.white {
+    color: #ffffff!important;
 }
 
 .blue-fill {
