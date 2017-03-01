@@ -282,14 +282,6 @@ button.button-squish {
     justify-content: center;
 }
 
-#resourceDetailsPage {
-
-}
-
-#resourceDetailsPage .list {
-    margin-top: 30pt;
-}
-
 #confirmBookingPage {
     display: flex;
     flex-flow: column;
