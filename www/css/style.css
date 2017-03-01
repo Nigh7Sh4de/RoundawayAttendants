@@ -1,3 +1,9 @@
+/*Fonts*/
+body {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+
 /*Colors*/
 .blue {
     color: #0459C0!important;
