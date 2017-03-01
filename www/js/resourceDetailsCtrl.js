@@ -13,6 +13,10 @@ angular.module('starter').controller("ResourceDetails", function ($scope, $state
         end: new Date(new Date().valueOf() + 1000*60*60)
     }
 
+    $scope.createBooking = function() {
+        $state.go('createBooking', $stateParams)
+    }
+
 
     // $scope.searchCarsInResource = function () {
     //     $state.go('searchCar', $stateParams)

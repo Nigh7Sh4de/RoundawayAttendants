@@ -17,6 +17,15 @@ body {
     background-color: #3994FA;
 }
 
+/*Overloads*/
+.has-header {
+    top: 0!important;
+}
+
+.card.button {
+    margin: 20px 10px;
+}
+
 /*Layout*/
 
 .bar {
@@ -75,7 +84,7 @@ body {
 }
 
 .muted {
-    color: #909090;
+    color: #909090!important;
 }
 
 #map {
@@ -286,14 +295,6 @@ button.button-squish {
     display: flex;
     font-size: 100pt;
     justify-content: center;
-}
-
-#resourceDetailsPage {
-
-}
-
-#resourceDetailsPage .list {
-    margin-top: 30pt;
 }
 
 #confirmBookingPage {
