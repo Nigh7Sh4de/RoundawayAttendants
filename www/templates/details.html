@@ -1,27 +1,35 @@
-<ion-view title="ResourceDetails" id="resourceDetailsPage">
-	<div class="bar bar-header bar-stable">
-		<button class="button button-clear button-positive" on-tap="back()">Back</button>
-		<h1 class="title">Details</h1>
-		<button class="button button-calm" on-tap="searchCarsInResource()">Cars</button>
-	</div>
-	<div class="list">
-		<button class="button button-positive button-full" on-tap="viewCars()" ng-disabled="!range_is_available">Cars</button>
-		<button class="button button-energized button-full" on-tap="viewCars()" ng-disabled="!range_is_available">Bookings</button>
-
-		<!--<div class="item">
-			<span class="item-label">{{resource.location.address}}</span>
-			<span class="item-note">Address</span>
+<ion-view id="resourceDetailsPage">
+    <ion-nav-title>{{resource.name}}</ion-nav-title>
+	<div class="card list">
+		<div class="item item-divider">
+			<h2>Info</h2>
 		</div>
-		<div class="item item-divider">Availability</div>
-		<ion-content class="item">
-			<div class="item muted" ng-if="!resource.available.ranges || !resource.available.ranges.length">
-				<span class="item-label">No availability ranges have been defined</span>
-			</div>
-			<div class="item muted" ng-repeat="availability in resource.available.ranges">
-				<span class="item-label">{{availability.start | date: "MM/dd/yyyy H:mm"}}</span>
-				<span>~</span>
-				<span class="item-label">{{availability.end | date: "MM/dd/yyyy H:mm"}}</span>
-			</div>
-		</ion-content>-->
+		<div class="item item-text-wrap">
+			<p>{{resource.location.address}}</p>
+			<p class="muted">Address</p>
+		</div>
+		<div class="item item-text-wrap">
+			<p>{{resource.price.perHour | currency }}</p>
+			<p class="muted">$/hour</p>
+		</div>
+	</div>
+	<div class="card list">
+		<div class="item item-divider">
+			<h2>Book this spot</h2>
+		</div>
+		<a href="" class="item" ion-datetime-picker am-pm ng-model="request.start" ng-class="{'item-assertive': request.start.error}" ng-change="updateNextRange">
+			<p href="">{{request.start | date: "MMM-dd-yyyy h:mm a"}}</p>
+			<p class="muted">Start</p>
+		</a>
+		<a href="" class="item" ion-datetime-picker am-pm ng-model="request.end" ng-class="{'item-assertive': request.end.error}" ng-change="updateNextRange">
+			<p>{{request.end | date: "MMM-dd-yyyy h:mm a"}}</p>
+			<p class="muted">End</p>
+		</a>
+		<a href="" class="item item-text-wrap blue-fill">
+			<p class="white">Create booking</p>
+		</a>
+		<a href="" class="item item-text-wrap">
+			<p class="blue">Create recurring booking</p>
+		</a>
 	</div>
 </ion-view>

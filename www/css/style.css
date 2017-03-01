@@ -6,7 +6,11 @@ body {
 
 /*Colors*/
 .blue {
-    color: #0459C0;
+    color: #0459C0!important;
+}
+
+.white {
+    color: #ffffff!important;
 }
 
 .blue-fill {
@@ -401,10 +405,6 @@ div[profile-Bar-Widget] {
 .profile-name {
     padding-top: 15px;
     padding-left: 20px;
-}
-
-a, u {
-    text-decoration: none;
 }
 
 .edit-button {
