@@ -25,6 +25,24 @@ angular.module('starter').service('resourceService', function ($http) {
             available: new ranger([{
                 start: new Date('01/01/2000'),
                 end: new Date('01/01/2100')
+            }, {
+                start: new Date('01/02/2100'),
+                end: new Date('01/03/2100')
+            }, {
+                start: new Date('01/04/2100'),
+                end: new Date('01/05/2100')
+            }, {
+                start: new Date('01/06/2100'),
+                end: new Date('01/07/2100')
+            }, {
+                start: new Date('01/08/2100'),
+                end: new Date('01/09/2100')
+            }, {
+                start: new Date('01/10/2100'),
+                end: new Date('01/11/2100')
+            }, {
+                start: new Date('01/12/2100'),
+                end: new Date('01/13/2100')
             }]),
             location: {
                 address: '456 Road ave, Toronto ON',
