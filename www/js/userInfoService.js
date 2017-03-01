@@ -5,6 +5,7 @@ angular.module('starter').service('userInfoService', function ($http) {
 
     var init_data = {
     	user: {
+            id: '12244486314',
 			profile: {
 				name:"Happy Gilmore"
 			},
@@ -24,6 +25,7 @@ angular.module('starter').service('userInfoService', function ($http) {
 
     var data = Object.assign({}, init_data)
     window.data = data
+    var currentUser = data.user
 
     var getProfileInfo = function() {
         if (OFFLINE_ONLY)
@@ -44,8 +46,9 @@ angular.module('starter').service('userInfoService', function ($http) {
                         Authorization: 'JWT ' + window.localStorage.getItem("jwt")
                     }
                 })
-                .then(function (res) {
-                    resolve(res.data.data);
+                .then(function (response) {
+                    currentUser = response.data.data;
+                    resolve(response.data.data);
                 })
             })
     }
@@ -55,3 +58,4 @@ angular.module('starter').service('userInfoService', function ($http) {
         getProfileInfo: getProfileInfo
     }
 });
+

@@ -65,9 +65,9 @@ angular.module('starter').service('resourceService', function ($http) {
                 perHour: 7.50
             }
         }],
-
-        bookings: [],
         
+        bookings: [],
+
         cars: []
     }
 
@@ -229,7 +229,6 @@ angular.module('starter').service('resourceService', function ($http) {
     //         })
     //     })
     // }
-
     return {
         OFFLINE_ONLY: OFFLINE_ONLY,
 

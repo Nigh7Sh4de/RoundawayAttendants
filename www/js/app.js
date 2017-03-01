@@ -37,15 +37,20 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
                 templateUrl: 'templates/search_car.html',
                 controller: 'SearchCar'
             })
+            .state('resourceList', {
+                url: '/manage',
+                templateUrl: 'templates/resources.html',
+                controller: 'ResourceList'
+            })
             .state('home', {
                 url: '/',
                 templateUrl: 'templates/home.html',
                 controller: 'Home'
             })
-            .state('resourceList', {
-                url: '/manage',
-                templateUrl: 'templates/resources.html',
-                controller: 'ResourceList'
+            .state('reservations', {
+                url: '/reservations',
+                templateUrl: 'templates/reservations.html',
+                controller: 'Reservations'
             })
             .state('settings', {
                 url:'/settings',
