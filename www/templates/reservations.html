@@ -4,8 +4,13 @@
         <!-- add a section header -->
         <ion-item class="item-divider">Upcoming Reservations</ion-item>
         <!-- iterate thru each item in the list, use $index as item identifier -->
-        <ion-item class="item-borderless" ng-repeat="reservation in reservations track by $end_date">
-
+        <ion-item ng-repeat="booking in upcomingBookings">
+            Lot   : {{booking.lot.name}}</br>
+            ({{booking.lot.location.address}})</br></br>
+            Spot  : {{booking.spot.name}}</br>
+            Start : {{booking.start}}</br>
+            End   : {{booking.end}}
+            <i class="icon ion-chevron-right icon-accessory"></i>
         </ion-item>
       </ion-list>
   </ion-content>
