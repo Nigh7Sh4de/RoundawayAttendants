@@ -211,23 +211,6 @@ button.button-squish {
     height: 100%;
 }
 
-#loginPage {
-    background: url('../img/BKGD_with_logo.jpg') no-repeat center top / 100% 100%;
-}
-
-#loginPage .login-page-container {
-    margin-top: 50vh;
-    height: 50vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#loginPage button {
-    font-weight: bold;
-}
-
 #createBookingPage {
     display: flex;
     flex-flow: column wrap;
