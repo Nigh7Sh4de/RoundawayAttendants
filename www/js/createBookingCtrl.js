@@ -1,4 +1,4 @@
-angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $rootScope, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService) {
+angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $rootScope, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService, userInfoService) {
     
     var getResource = function() {
         resourceService.getResource($stateParams.type, $stateParams.id)
@@ -23,6 +23,18 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         }
     }
     getResource();
+
+    var getUser = function() {
+        userInfoService.getProfileInfo()
+        .then(function(user) {
+            $scope.user = user;
+        })
+        .catch(function(err) {
+            console.error(err);
+            $state.go('login');
+        })
+    }
+    getUser();
     
     $ionicModal.fromTemplateUrl('templates/confirm_booking.html', {
         scope: $scope,
