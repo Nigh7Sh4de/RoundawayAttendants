@@ -26,7 +26,7 @@ angular.module('starter').service('userInfoService', function ($http) {
 
     var data = Object.assign({}, window.data, init_data)
     window.data = data
-    var currentUser;// = data.user
+    var currentUser = data.user
 
     var getProfileInfo = function() {
         if (OFFLINE_ONLY)
