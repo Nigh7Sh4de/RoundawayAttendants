@@ -1,7 +1,9 @@
-var OFFLINE_ONLY = true;
 
 angular.module('starter').service('resourceService', function ($http) {
 
+    var OFFLINE_ONLY = true;
+    
+    // var base_url = 'http://localhost:8081';
     var base_url = 'http://roundaway.com:8081';
 
     Date.prototype.addHours = function(h){
@@ -159,7 +161,7 @@ angular.module('starter').service('resourceService', function ($http) {
         cars: []
     }
 
-    var data = Object.assign({}, init_data)
+    var data = Object.assign({}, window.data, init_data)
     window.data = data
 
     var getNearestSpots = function(coords, duration) {
@@ -179,7 +181,7 @@ angular.module('starter').service('resourceService', function ($http) {
                     }
                 })
                 .then(function (res) {
-                    resolve(res.data.data);
+                    resolve(res.data.data.spots);
                 })
             })
     }
@@ -386,22 +388,7 @@ angular.module('starter').service('resourceService', function ($http) {
     return {
         OFFLINE_ONLY: OFFLINE_ONLY,
 
-        fakeAuthenticate: function() {
-            window.localStorage.setItem("jwt", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3NzJlMzkwMmY1OTk5OGExZDc3ZmIyNSIsInByb2ZpbGUiOnsibmFtZSI6IkRlbm5pcyBQbG90bmlrIn0sImlhdCI6MTQ3ODczMDc4MX0.YWXwoNmg4pc1_A9wlV5qJ5ZKHlUgTa5XlbTVeBUIk7M")
-        },
 
-        authenticate: function (token) {
-            return new Promise(function (resolve, reject) {
-                $http.post(base_url + '/auth/facebook', {
-                    access_token: token
-                }).success(function (res) {
-                    window.localStorage.setItem("jwt", res.data);
-                    resolve();
-                }).error(function (err) {
-                    reject(err);
-                })
-            })
-        },
         getResource: getResource,
         getNearestSpots: getNearestSpots,
         // adjustAvailability: adjustAvailability,
