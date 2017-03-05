@@ -6,6 +6,22 @@ angular.module('starter').service('resourceService', function ($http) {
     // var base_url = 'http://localhost:8081';
     var base_url = 'http://roundaway.com:8081';
 
+    Date.prototype.addHours = function(h){
+        this.setTime(this.getTime() + (h*60*60*1000)); 
+        return this;
+    }
+
+    function formatDate(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+
     var init_data = {
         lots: [{
             id: 'l1234567890123456789012345',
@@ -85,8 +101,62 @@ angular.module('starter').service('resourceService', function ($http) {
                 perHour: 7.50
             }
         }],
-        
-        bookings: [],
+
+        bookings: [
+        {
+            user: {
+                id: '12244486314',
+                profile: {
+                    name:"Happy Gilmore"
+                },
+                authid: {
+                    facebook: "",
+                    google: ""
+                },
+                stripe: {
+                    acct: "",
+                    cus: "",
+                    public: "",
+                    secret: ""
+                },
+                admin: false
+            },
+            car: {},
+            lot: {
+                id: 'l1234567890123456789012345',
+                name: 'My awesome lot',
+                location: {
+                    address: '123 Fake st, Toronto ON' ,
+                    coordinates: [43.65, -79.38]
+                },
+                price: {
+                    perHour: 5.00
+                }
+            },
+            spot: {
+                id: 's1234567890123456789012345',
+                lot: 'l1234567890123456789012345',
+                name: 'Spot #1',
+                available: new ranger([{
+                    start: new Date('01/01/2000'),
+                    end: new Date('01/01/2100')
+                }]),
+                location: {
+                    address: '456 Road ave, Toronto ON',
+                    coordinates: [43.655, -79.385]
+                },
+                price: {
+                    perHour: 5.00
+                }
+            },
+            status: 'paid',
+            price: {
+                perHour: 5.00
+            },
+            start: new Date().addHours(4),
+            end: new Date().addHours(10)
+        }
+        ],
 
         cars: []
     }
@@ -230,6 +300,72 @@ angular.module('starter').service('resourceService', function ($http) {
             })
     }
 
+    var getBookings = function () {
+        if (OFFLINE_ONLY)
+            return new Promise(function (resolve, reject) {
+                var upcomingBookings = []
+                var pastBookings = []
+                for (var i=0; i<data.bookings.length; i++)
+                {
+                    var booking = data.bookings[i]
+                    var now = new Date()
+                    if (booking.start > now) {
+                        booking.start = formatDate(booking.start)
+                        booking.end = formatDate(booking.end)
+                        upcomingBookings.push(booking)
+                    }
+                    else {
+                        booking.start = formatDate(booking.start)
+                        booking.end = formatDate(booking.end)
+                        pastBookings.push(booking)
+                    }
+                }
+                var bookingData = {
+                    upcoming : upcomingBookings,
+                    past : pastBookings
+                }
+                var responseDict = Object.assign({}, bookingData)
+                resolve(responseDict);
+            })
+        else
+            return new Promise(function (resolve, reject) {
+                var url = base_url + '/api/users/' + window.localStorage.getItem("user_id") + '/bookings';
+                $http.get(url, {
+                    headers: {
+                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                    }
+                }).then(function (res) {
+                    var upcomingBookings = []
+                    var pastBookings = []
+
+                    var data = res.data.data
+
+                    for (var i=0; i<data.bookings.length; i++)
+                    {
+                        var booking = data.bookings[i]
+                        var now = new Date()
+                        if (booking.start > now) {
+                            booking.start = formatDate(booking.start)
+                            booking.end = formatDate(booking.end)
+                            upcomingBookings.push(booking)
+                        }
+                        else {
+                            booking.start = formatDate(booking.start)
+                            booking.end = formatDate(booking.end)
+                            pastBookings.push(booking)
+                        }
+                    }
+                    var responseDict = {
+                        upcoming : upcomingBookings,
+                        past : pastBookings
+                    }
+
+                    var responseData = Object.assign({}, responseDict)
+                    resolve(responseData);
+                })
+            })
+    }  
+
     // var adjustAvailability = function (type, id, range, remove) {
     //     return new Promise(function (resolve, reject) {
     //         var url = base_url + '/api/' + type;
@@ -252,11 +388,13 @@ angular.module('starter').service('resourceService', function ($http) {
     return {
         OFFLINE_ONLY: OFFLINE_ONLY,
 
+
         getResource: getResource,
         getNearestSpots: getNearestSpots,
         // adjustAvailability: adjustAvailability,
         checkLotAvailability: checkLotAvailability,
         createBooking: createBooking,
-        payBooking: payBooking
+        payBooking: payBooking,
+        getBookings: getBookings
     }
 })

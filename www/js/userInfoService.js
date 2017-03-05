@@ -54,6 +54,7 @@ angular.module('starter').service('userInfoService', function ($http) {
                 })
                 .then(function (response) {
                     currentUser = response.data.data;
+                    window.localStorage.setItem("user_id", currentUser.id);
                     resolve(response.data.data);
                 })
             })
