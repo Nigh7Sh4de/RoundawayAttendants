@@ -13,15 +13,17 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
             }
         });
     })
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+        $ionicConfigProvider.backButton.previousTitleText(false).text('');
+
         $stateProvider
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login.html',
-                controller: 'LoginController'
+                controller: 'Login'
             })
             .state('createBooking', {
-                url: '/:type/:id/cars/:license/createbooking',
+                url: '/:type/:id/createbooking',
                 templateUrl: 'templates/create_booking.html',
                 controller: 'CreateBooking'
             })
@@ -35,72 +37,41 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
                 templateUrl: 'templates/search_car.html',
                 controller: 'SearchCar'
             })
-            .state('home', {
-                url: '/',
-                templateUrl: 'templates/home.html',
-                controller: 'Home'
-            })
             .state('resourceList', {
                 url: '/manage',
                 templateUrl: 'templates/resources.html',
                 controller: 'ResourceList'
             })
+            .state('home', {
+                url: '/',
+                templateUrl: 'templates/home.html',
+                controller: 'Home'
+            })
+            .state('reservations', {
+                url: '/reservations',
+                templateUrl: 'templates/reservations.html',
+                controller: 'Reservations'
+            })
             .state('settings', {
                 url:'/settings',
                 templateUrl: 'templates/settings.html',
-                controller: 'SettingsCtrl'
+                controller: 'Settings'
+            })
+            .state('profile', {
+                url:'/profile',
+                templateUrl: 'templates/profile.html',
+                controller: 'Profile'
             });
         $urlRouterProvider.otherwise('/');
+    }) 
+    .directive('profileBarWidget', function($ionicGesture) {
+        return {
+            restrict: 'AE',
+            // declare the directive scope as private (and empty)
+            scope: {},
+            // add behaviour to our buttons and use a variable value
+            templateUrl: 'templates/profile_bar.html',
+            // we just declare what we need in the above template
+            controller: 'ProfileBarController'
+        };
     })
-
-app.controller("LoginController", function ($scope, $stateParams, $state, $ionicPopup, resourceService) {
-
-    var authenticate = function(token) {
-        resourceService.authenticate(token)
-        .then(function() {
-            loading.close();
-            $state.go('resourceList');
-        })
-        .catch(function(err){
-            loading.close()
-            $ionicPopup.alert({
-                title: "Oops!",
-                template: err.errorMessage || err
-            })
-        })
-    }
-
-    var loading;
-
-    $scope.login = function () {
-
-
-    loading = $ionicPopup.show({
-        title: 'Loading',
-        template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
-    })
-    if (resourceService.OFFLINE_ONLY) {
-        resourceService.fakeAuthenticate()
-        loading.close()
-        $state.go('resourceList')
-    }
-    else
-        facebookConnectPlugin.getLoginStatus(function(response){
-            if(response.status === 'connected'){
-                authenticate(response.authResponse.accessToken)
-            }
-            else {
-                facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
-                    authenticate(response.authResponse.accessToken);
-                }, function(err) {
-                    loading.close()
-                    $ionicPopup.alert({
-                        title: "Oops!",
-                        template: err.errorMessage || err
-                    })
-                });
-            }
-        });
-    }
-
-});

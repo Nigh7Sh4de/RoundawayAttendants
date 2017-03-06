@@ -1,15 +1,34 @@
-var OFFLINE_ONLY = true;
 
 angular.module('starter').service('resourceService', function ($http) {
 
+    var OFFLINE_ONLY = true;
+    
+    // var base_url = 'http://localhost:8081';
     var base_url = 'http://roundaway.com:8081';
+
+    Date.prototype.addHours = function(h){
+        this.setTime(this.getTime() + (h*60*60*1000)); 
+        return this;
+    }
+
+    function formatDate(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
 
     var init_data = {
         lots: [{
             id: 'l1234567890123456789012345',
             name: 'My awesome lot',
             location: {
-                address: '123 Fake st, Toronto ON' 
+                address: '123 Fake st, Toronto ON' ,
+                coordinates: [43.65, -79.38]
             },
             price: {
                 perHour: 5.00
@@ -24,9 +43,28 @@ angular.module('starter').service('resourceService', function ($http) {
             available: new ranger([{
                 start: new Date('01/01/2000'),
                 end: new Date('01/01/2100')
+            }, {
+                start: new Date('01/02/2100'),
+                end: new Date('01/03/2100')
+            }, {
+                start: new Date('01/04/2100'),
+                end: new Date('01/05/2100')
+            }, {
+                start: new Date('01/06/2100'),
+                end: new Date('01/07/2100')
+            }, {
+                start: new Date('01/08/2100'),
+                end: new Date('01/09/2100')
+            }, {
+                start: new Date('01/10/2100'),
+                end: new Date('01/11/2100')
+            }, {
+                start: new Date('01/12/2100'),
+                end: new Date('01/13/2100')
             }]),
             location: {
-                address: '456 Road ave, Toronto ON'
+                address: '456 Road ave, Toronto ON',
+                coordinates: [43.655, -79.385]
             },
             price: {
                 perHour: 5.00
@@ -40,7 +78,8 @@ angular.module('starter').service('resourceService', function ($http) {
                 end: new Date('01/01/2100')
             }]),
             location: {
-                address: '456 Road ave, Toronto ON'
+                address: '456 Road ave, Toronto ON',
+                coordinates: [43.66, -79.39]
             },
             price: {
                 perHour: 5.00
@@ -55,20 +94,97 @@ angular.module('starter').service('resourceService', function ($http) {
                 end: new Date('01/01/2100')
             }]),
             location: {
-                address: '456 Road ave, Toronto ON'
+                address: '456 Road ave, Toronto ON',
+                coordinates: [43.665, -79.395]
             },
             price: {
                 perHour: 7.50
             }
         }],
 
-        bookings: [],
-        
+        bookings: [
+        {
+            user: {
+                id: '12244486314',
+                profile: {
+                    name:"Happy Gilmore"
+                },
+                authid: {
+                    facebook: "",
+                    google: ""
+                },
+                stripe: {
+                    acct: "",
+                    cus: "",
+                    public: "",
+                    secret: ""
+                },
+                admin: false
+            },
+            car: {},
+            lot: {
+                id: 'l1234567890123456789012345',
+                name: 'My awesome lot',
+                location: {
+                    address: '123 Fake st, Toronto ON' ,
+                    coordinates: [43.65, -79.38]
+                },
+                price: {
+                    perHour: 5.00
+                }
+            },
+            spot: {
+                id: 's1234567890123456789012345',
+                lot: 'l1234567890123456789012345',
+                name: 'Spot #1',
+                available: new ranger([{
+                    start: new Date('01/01/2000'),
+                    end: new Date('01/01/2100')
+                }]),
+                location: {
+                    address: '456 Road ave, Toronto ON',
+                    coordinates: [43.655, -79.385]
+                },
+                price: {
+                    perHour: 5.00
+                }
+            },
+            status: 'paid',
+            price: {
+                perHour: 5.00
+            },
+            start: new Date().addHours(4),
+            end: new Date().addHours(10)
+        }
+        ],
+
         cars: []
     }
 
-    var data = Object.assign({}, init_data)
+    var data = Object.assign({}, window.data, init_data)
     window.data = data
+
+    var getNearestSpots = function(coords, duration) {
+        if (OFFLINE_ONLY)
+            return Promise.resolve(data.spots.filter(function(spot) {
+                return spot.available.check(duration.start);
+            }));
+        else
+            return new Promise(function(resolve, reject) {
+                var url = base_url + '/api/spots/near?'
+                url += 'long=' + coords.lng();
+                url += '&lat=' + coords.lat();
+                url += '&available=' + duration.start;
+                $http.get(url, {
+                    headers: {
+                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                    }
+                })
+                .then(function (res) {
+                    resolve(res.data.data.spots);
+                })
+            })
+    }
 
     var getResource = function (type, search) {
         if (OFFLINE_ONLY)
@@ -184,6 +300,72 @@ angular.module('starter').service('resourceService', function ($http) {
             })
     }
 
+    var getBookings = function () {
+        if (OFFLINE_ONLY)
+            return new Promise(function (resolve, reject) {
+                var upcomingBookings = []
+                var pastBookings = []
+                for (var i=0; i<data.bookings.length; i++)
+                {
+                    var booking = data.bookings[i]
+                    var now = new Date()
+                    if (booking.start > now) {
+                        booking.start = formatDate(booking.start)
+                        booking.end = formatDate(booking.end)
+                        upcomingBookings.push(booking)
+                    }
+                    else {
+                        booking.start = formatDate(booking.start)
+                        booking.end = formatDate(booking.end)
+                        pastBookings.push(booking)
+                    }
+                }
+                var bookingData = {
+                    upcoming : upcomingBookings,
+                    past : pastBookings
+                }
+                var responseDict = Object.assign({}, bookingData)
+                resolve(responseDict);
+            })
+        else
+            return new Promise(function (resolve, reject) {
+                var url = base_url + '/api/users/' + window.localStorage.getItem("user_id") + '/bookings';
+                $http.get(url, {
+                    headers: {
+                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                    }
+                }).then(function (res) {
+                    var upcomingBookings = []
+                    var pastBookings = []
+
+                    var data = res.data.data
+
+                    for (var i=0; i<data.bookings.length; i++)
+                    {
+                        var booking = data.bookings[i]
+                        var now = new Date()
+                        if (booking.start > now) {
+                            booking.start = formatDate(booking.start)
+                            booking.end = formatDate(booking.end)
+                            upcomingBookings.push(booking)
+                        }
+                        else {
+                            booking.start = formatDate(booking.start)
+                            booking.end = formatDate(booking.end)
+                            pastBookings.push(booking)
+                        }
+                    }
+                    var responseDict = {
+                        upcoming : upcomingBookings,
+                        past : pastBookings
+                    }
+
+                    var responseData = Object.assign({}, responseDict)
+                    resolve(responseData);
+                })
+            })
+    }  
+
     // var adjustAvailability = function (type, id, range, remove) {
     //     return new Promise(function (resolve, reject) {
     //         var url = base_url + '/api/' + type;
@@ -203,30 +385,16 @@ angular.module('starter').service('resourceService', function ($http) {
     //         })
     //     })
     // }
-
     return {
         OFFLINE_ONLY: OFFLINE_ONLY,
 
-        fakeAuthenticate: function(){
-            window.localStorage.setItem("jwt", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3NzJlMzkwMmY1OTk5OGExZDc3ZmIyNSIsInByb2ZpbGUiOnsibmFtZSI6IkRlbm5pcyBQbG90bmlrIn0sImlhdCI6MTQ3ODczMDc4MX0.YWXwoNmg4pc1_A9wlV5qJ5ZKHlUgTa5XlbTVeBUIk7M")
-        },
 
-        authenticate: function (token) {
-            return new Promise(function (resolve, reject) {
-                $http.post(base_url + '/auth/facebook', {
-                    access_token: token
-                }).success(function (res) {
-                    window.localStorage.setItem("jwt", res.data);
-                    resolve();
-                }).error(function (err) {
-                    reject(err);
-                })
-            })
-        },
         getResource: getResource,
+        getNearestSpots: getNearestSpots,
         // adjustAvailability: adjustAvailability,
         checkLotAvailability: checkLotAvailability,
         createBooking: createBooking,
-        payBooking: payBooking
+        payBooking: payBooking,
+        getBookings: getBookings
     }
 })

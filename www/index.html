@@ -1,68 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
 
-    <link rel="manifest" href="manifest.json">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title></title>
 
-    <!-- un-comment this code to enable service worker
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
-      }
-    </script>-->
+        <link rel="manifest" href="manifest.json">
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ion-datetime-picker/ion-datetime-picker.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+        <!-- un-comment this code to enable service worker
+        <script>
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+              .then(() => console.log('service worker installed'))
+              .catch(err => console.log('Error', err));
+          }
+        </script>-->
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet"> 
 
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/ion-datetime-picker/ion-datetime-picker.min.js"></script>
-    <script src="lib/rangerjs/ranger.js"></script>
-    <script src="lib/angular-credit-cards/angular-credit-cards.js"></script>
-    <script src="https://js.stripe.com/v2/"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-    <script src="lib/ng-cordova/ng-cordova.js"></script>
-    <script src="http://maps.google.com/maps/api/js?key=AIzaSyDzO69_6QM_qkhczIvkFrmWtjXkg3CTFIE"></script>
+        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="lib/ion-datetime-picker/ion-datetime-picker.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
 
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/searchCarCtrl.js"></script>
-    <script src="js/resourcesCtrl.js"></script>
-    <script src="js/resourceDetailsCtrl.js"></script>
-    <script src="js/createBookingCtrl.js"></script>
-    <script src="js/homeCtrl.js"></script>
-    <script src="js/settingsCtrl.js"></script>
-    <script src="js/resourceService.js"></script>
-  </head>
-  <body ng-app="starter">
+        <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+        <link href="css/ionic.app.css" rel="stylesheet">
+        -->
 
-    <ion-nav-view></ion-nav-view>
-    <div class="tabs">
-        <a class="tab-item" href="#/">
-            Parking
-        </a>
-        <a class="tab-item" href="#/reservations">
-            Reservations
-        </a>
-        <a class="tab-item" href="#/manage">
-            Manage
-        </a>
-        <a class="tab-item" href="#/settings">
-            Settings
-        </a>
-    </div>
+        <!-- ionic/angularjs js -->
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="lib/ion-datetime-picker/ion-datetime-picker.min.js"></script>
+        <script src="lib/rangerjs/ranger.js"></script>
+        <script src="lib/angular-credit-cards/angular-credit-cards.js"></script>
+        <script src="https://js.stripe.com/v2/"></script>
+
+        <!-- cordova script (this will be a 404 during development) -->
+        <script src="cordova.js"></script>
+        <script src="lib/ng-cordova/ng-cordova.js"></script>
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyDzO69_6QM_qkhczIvkFrmWtjXkg3CTFIE&libraries=places"></script>
+
+        <!-- your app's js -->
+        <script src="js/app.js"></script>
+        <script src="js/searchCarCtrl.js"></script>
+        <script src="js/resourcesCtrl.js"></script>
+        <script src="js/resourceDetailsCtrl.js"></script>
+        <script src="js/createBookingCtrl.js"></script>
+        <script src="js/homeCtrl.js"></script>
+        <script src="js/settingsCtrl.js"></script>
+        <script src="js/profileBarCtrl.js"></script>
+        <script src="js/reservationsCtrl.js"></script>
+        <script src="js/resourceService.js"></script>
+        <script src="js/userInfoService.js"></script>
+        <script src="js/loginCtrl.js"></script>
+    </head>
+
+    <body ng-app="starter">
+        <ion-nav-bar class="bar header blue-fill">
+            <ion-nav-back-button class="button button-clear button-light"></ion-nav-back-button>
+        </ion-nav-bar>
+        <ion-nav-view id="mainView"></ion-nav-view>
+        <div class="bar footer blue">
+            <a class="tab" href="#/">
+                Parking
+            </a>
+            <a class="tab" href="#/reservations">
+                Reservations
+            </a>
+            <a class="tab" href="#/settings">
+                Settings
+            </a>
+        </div>    
+    </body>
     
-  </body>
 </html>

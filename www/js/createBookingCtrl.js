@@ -1,4 +1,4 @@
-angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $rootScope, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService) {
+angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $rootScope, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService, userInfoService) {
     
     var getResource = function() {
         resourceService.getResource($stateParams.type, $stateParams.id)
@@ -23,6 +23,18 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         }
     }
     getResource();
+
+    var getUser = function() {
+        userInfoService.getProfileInfo()
+        .then(function(user) {
+            $scope.user = user;
+        })
+        .catch(function(err) {
+            console.error(err);
+            $state.go('login');
+        })
+    }
+    getUser();
     
     $ionicModal.fromTemplateUrl('templates/confirm_booking.html', {
         scope: $scope,
@@ -33,6 +45,7 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
 
     $scope.checkAvailability = function() {
         $scope.options = null;
+        $scope.range_is_available = null;
         if ($stateParams.type === 'spots') {
             if ($scope.resource.available.checkRange(
                 $scope.request.start,
@@ -43,12 +56,12 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
             } 
             else {
                 var start = $scope.request.start;
-                $scope.options = [];
+                var options = [];
                 for (var i=0;i<5;i++) {
                     var next = $scope.resource.available.nextRange(start);
                     if (!next) break;
                     start = next.end;
-                    $scope.options.push({
+                    options.push({
                         start: next.start,
                         end: next.end,
                         spot: $scope.resource.id,
@@ -56,6 +69,8 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
                         price: $scope.resource.price.perHour
                     });
                 }
+                if (options.length) $scope.options = options;
+                else $scope.range_is_available = false;
             }
         }
         else if ($stateParams.type === 'lots') {
@@ -68,7 +83,7 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
                     $scope.request.spot = spots.exact[0].id;
                 }
                 else {
-                    $scope.options = spots.similar.map(function(spot) {
+                    var options = spots.similar.map(function(spot) {
                         spot.available = new ranger(spot.available, Date);
                         var range = spot.available.nextRange($scope.request.start);
                         return {
@@ -79,8 +94,11 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
                             price: spot.price.perHour
                         }
                     });
-                    if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
-                    if (!$scope.option.length) $scope.range_is_available = false;
+                    if (options.length) {
+                        $scope.options = options;
+                        if ($scope.options.length >= 5) $scope.options = $scope.options.slice(0, 5);
+                    }
+                    else $scope.range_is_available = false;
                 }
                 $scope.$apply();
             })

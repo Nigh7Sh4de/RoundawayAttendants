@@ -1,27 +1,29 @@
-<ion-view title="ResourceDetails" id="resourceDetailsPage">
-	<div class="bar bar-header bar-stable">
-		<button class="button button-clear button-positive" on-tap="back()">Back</button>
-		<h1 class="title">Details</h1>
-		<button class="button button-calm" on-tap="searchCarsInResource()">Cars</button>
-	</div>
-	<div class="list">
-		<button class="button button-positive button-full" on-tap="viewCars()" ng-disabled="!range_is_available">Cars</button>
-		<button class="button button-energized button-full" on-tap="viewCars()" ng-disabled="!range_is_available">Bookings</button>
-
-		<!--<div class="item">
-			<span class="item-label">{{resource.location.address}}</span>
-			<span class="item-note">Address</span>
+<ion-view id="resourceDetailsPage">
+    <ion-nav-title>{{resource.name}}</ion-nav-title>
+	<ion-content>
+		<div class="card list">
+			<div class="item item-divider">
+				<h2>Info</h2>
+			</div>
+			<div class="item item-text-wrap">
+				<p>{{resource.location.address}}</p>
+				<p class="muted">Address</p>
+			</div>
+			<div class="item item-text-wrap">
+				<p>{{resource.price.perHour | currency }}</p>
+				<p class="muted">$/hour</p>
+			</div>
 		</div>
-		<div class="item item-divider">Availability</div>
-		<ion-content class="item">
-			<div class="item muted" ng-if="!resource.available.ranges || !resource.available.ranges.length">
-				<span class="item-label">No availability ranges have been defined</span>
+		<div class="card button button-block button-balanced" ng-click="createBooking()">Create Booking</div>
+		<div class="card list">
+			<div class="item item-divider">
+				<h2>Availability</h2>
 			</div>
-			<div class="item muted" ng-repeat="availability in resource.available.ranges">
-				<span class="item-label">{{availability.start | date: "MM/dd/yyyy H:mm"}}</span>
-				<span>~</span>
-				<span class="item-label">{{availability.end | date: "MM/dd/yyyy H:mm"}}</span>
+			<div class="item item-text-wrap" ng-repeat="range in resource.available.ranges">
+				<p>{{range.start | date: "MMM-dd-yyyy h:mm a"}}</p>
+				<p class="muted">-</p>
+				<p>{{range.end | date: "MMM-dd-yyyy h:mm a"}}</p>
 			</div>
-		</ion-content>-->
-	</div>
+		</div>
+	</ion-content>
 </ion-view>

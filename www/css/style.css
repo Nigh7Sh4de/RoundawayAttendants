@@ -1,12 +1,132 @@
+/*Fonts*/
+body {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+
+/*Colors*/
+.blue {
+    color: #0459C0!important;
+}
+
+.white {
+    color: #ffffff!important;
+}
+
+.blue-fill {
+    background-color: #3994FA;
+}
+
+/*Overloads*/
+.has-header {
+    top: 0!important;
+}
+
+.card.button {
+    margin: 20px 10px;
+}
+
+/*Layout*/
+
+.bar {
+    width: 100%;
+    height: 49px;
+    position: absolute;
+    line-height: 49px;
+    display: flex;
+    flex-flow: row;
+    align-items: space-between;
+    justify-content: space-between;
+    padding: 0;
+    text-align: center;
+    border: none;
+    margin: 0;
+    font-weight: 100;
+}
+
+.bar.footer {
+    bottom: 0;
+    box-shadow: 0 13px 10px 10px #000;
+    /*border-top: 1px solid #ffffff;*/
+}
+
+.bar.header {
+    top: 0;
+    box-shadow: 0 -13px 10px 10px #000;
+    /*border-bottom: 1px solid #ffffff;*/
+}
+
+.bar .title {
+    line-height: inherit;
+    font-weight: 400;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.bar button {
+    max-height: 100%;
+}
+
+.bar button.back-button {
+    margin-left: 10px;
+}
+
+.bar .tab {
+    display: block;
+    flex: 1;
+    height: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-decoration: none;
+    color: inherit;
+}
+
 .muted {
-    color: #909090;
+    color: #909090!important;
 }
 
 #map {
-    position: absolute;
     width: 100%;
     height: 100%;
 }
+
+input[type="text"]#mapSearch {
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(255,255,255,0.95);
+}
+
+.map-filter {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px;
+    width: 80%;
+    height: 190px;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.map-filter input {
+    width: 100%;
+    padding: 5px;
+}
+
+.filter-controls {
+    display: flex;
+}
+
+.filter-controls .tiny {
+    min-height: 0px;
+    line-height: normal;
+}
+
 
 .signal-light {
     width: 27px;
@@ -38,6 +158,11 @@ label.item-input-wrapper input {
 .item {
     display: flex;
     justify-content: space-between;
+}
+
+.item.centered {
+    text-align: center;
+    display: block;
 }
 
 .item .item-label {
@@ -77,104 +202,13 @@ button.button-squish {
     border-right: 1px solid rgba(255,255,255,0.5);
 }
 
+.view-container {
+    height: calc(100% - 100px);
+    top: 50px;
+}
+
 #homePage .home-page-container {
-    display: flex;
-    flex-flow: column;
-    height: calc(100% - 50px);
-}
-
-#loginPage {
-    background: url('../img/BKGD_with_logo.jpg') no-repeat center top / 100% 100%;
-}
-
-#loginPage .login-page-container {
-    margin-top: 50vh;
-    height: 50vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#loginPage button {
-    font-weight: bold;
-}
-
-#createBookingPage {
-    display: flex;
-    flex-flow: column wrap;
-}
-
-#createBookingPage form {
-    margin-top: 30pt;
-}
-
-#createBookingPage h4 {
-    padding: 8pt;
-}
-
-#createBookingPage {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: space-between;
-}
-
-#createBookingPage .availability-preview {
-    background-color: #35c377;
-    width: 100%;
-    height: 115pt;
-    justify-content: space-around;
-    display: flex;
-    align-items: center;
-    font-size: 1.6em;
-    line-height: 1.1em;
-    text-align: center;
-}
-
-#createBookingPage .availability-preview.empty {
-    background-color: #ef473a;
-}
-
-#createBookingPage .availability-input {
-    width: 100%;
-    justify-content: space-around;
-    display: flex;
-    align-items: center;
-    font-size: 1.6em;
-    line-height: 1.1em;
-    text-align: center;
-}
-
-#createBookingPage .booking-price-preview {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-flow: column wrap;
-    align-items: center;
-    font-size: 1.6em;
-    line-height: 1.1em;
-    text-align: center;
-}
-
-#createBookingPage .booking-price-preview h1 {
-    background-color: #909090;
-    padding: 20pt;
-    color: #fff;
-    width: 50%;
-}
-
-#createBookingPage .range-is-available {
-    display: flex;
-    font-size: 100pt;
-    justify-content: center;
-}
-
-#resourceDetailsPage {
-
-}
-
-#resourceDetailsPage .list {
-    margin-top: 30pt;
+    height: 100%;
 }
 
 #confirmBookingPage {
@@ -234,4 +268,61 @@ button.button-squish {
     justify-content: center;
     text-align: center;
 
+}
+
+.platform-ios .manual-ios-statusbar-padding {
+    padding-top: 20px;
+}
+
+.manual-remove-top-padding {
+    padding-top: 0px;
+}
+
+.manual-remove-top-padding .scroll {
+    padding-top: 0px !important;
+}
+
+ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
+    border-radius: 0px;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.show-list-numbers-and-dots ul {
+    list-style-type: disc;
+    padding-left: 40px;
+}
+
+.show-list-numbers-and-dots ol {
+    list-style-type: decimal;
+    padding-left: 40px;
+}
+
+/** styling for reusable profile bar */
+div[profile-Bar-Widget] {
+    align-items: center;
+    display: flex;
+}
+
+.thumbnail {
+    float: left;
+}
+
+.thumbnail img {
+    display: block
+}
+
+.profile-name {
+    padding-top: 15px;
+    padding-left: 20px;
+}
+
+.edit-button {
+    padding-top: 10px;
+    padding-left: 20px;
 }
