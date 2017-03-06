@@ -1,7 +1,7 @@
 
 angular.module('starter').service('resourceService', function ($http) {
 
-    var OFFLINE_ONLY = true;
+    var OFFLINE_ONLY = false;
     
     // var base_url = 'http://localhost:8081';
     var base_url = 'http://roundaway.com:8081';

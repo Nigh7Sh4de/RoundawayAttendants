@@ -1,6 +1,6 @@
 angular.module('starter').service('userInfoService', function ($http) {
     
-    var OFFLINE_ONLY = true;
+    var OFFLINE_ONLY = false;
 
     var base_url = 'http://roundaway.com:8081';
 
@@ -59,24 +59,6 @@ angular.module('starter').service('userInfoService', function ($http) {
                 })
             })
         }
-    }
-
-    var fakeAuthenticate = function(){
-        window.localStorage.setItem("jwt", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3NzJlMzkwMmY1OTk5OGExZDc3ZmIyNSIsInByb2ZpbGUiOnsibmFtZSI6IkRlbm5pcyBQbG90bmlrIn0sImlhdCI6MTQ3ODczMDc4MX0.YWXwoNmg4pc1_A9wlV5qJ5ZKHlUgTa5XlbTVeBUIk7M")
-        currentUser = data.user;   
-    }
-
-    var authenticate = function (token) {
-        return new Promise(function (resolve, reject) {
-            $http.post(base_url + '/auth/facebook', {
-                access_token: token
-            }).success(function (res) {
-                window.localStorage.setItem("jwt", res.data);
-                resolve();
-            }).error(function (err) {
-                reject(err);
-            })
-        })
     }
 
     return {
