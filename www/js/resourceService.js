@@ -1,5 +1,5 @@
 
-angular.module('starter').service('resourceService', function ($http) {
+angular.module('starter').service('resourceService', function ($http, userInfoService) {
 
     var OFFLINE_ONLY = false;
     
@@ -171,13 +171,14 @@ angular.module('starter').service('resourceService', function ($http) {
             }));
         else
             return new Promise(function(resolve, reject) {
+                var jwt_token = userInfoService.getToken()
                 var url = base_url + '/api/spots/near?'
                 url += 'long=' + coords.lng();
                 url += '&lat=' + coords.lat();
                 url += '&available=' + duration.start;
                 $http.get(url, {
                     headers: {
-                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                        Authorization: 'JWT ' + jwt_token
                     }
                 })
                 .then(function (res) {
@@ -205,6 +206,7 @@ angular.module('starter').service('resourceService', function ($http) {
             })
         else
             return new Promise(function (resolve, reject) {
+                var jwt_token = userInfoService.getToken()
                 var url = base_url + '/api/' + type;
                 if (search) {
                     if (typeof search === 'string') url += '/' + search;
@@ -216,7 +218,7 @@ angular.module('starter').service('resourceService', function ($http) {
                 }
                 $http.get(url, {
                     headers: {
-                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                        Authorization: 'JWT ' + jwt_token
                     }
                 })
                 .then(function (res) {
@@ -240,10 +242,11 @@ angular.module('starter').service('resourceService', function ($http) {
             })
         else
             return new Promise(function (resolve, reject) {
+                var jwt_token = userInfoService.getToken()
                 var url = base_url + '/api/lots/' + request.lot + '/available/check';
                 $http.put(url, request, {
                     headers: {
-                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                        Authorization: 'JWT ' + jwt_token
                     }
                 }).then(function (res) {
                     resolve(res.data.data);
@@ -271,10 +274,11 @@ angular.module('starter').service('resourceService', function ($http) {
             })
         else
             return new Promise(function (resolve, reject) {
+                var jwt_token = userInfoService.getToken()
                 var url = base_url + '/api/spot/' + request.spot + '/bookings';
                 $http.put(url, request, {
                     headers: {
-                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                        Authorization: 'JWT ' + jwt_token
                     }
                 }).then(function (res) {
                     resolve(res.data.data);
@@ -287,12 +291,13 @@ angular.module('starter').service('resourceService', function ($http) {
             return Promise.resolve();
         else
             return new Promise(function (resolve, reject) {
+                var jwt_token = userInfoService.getToken()
                 var url = base_url + '/api/bookings/' + booking.id + '/pay';
                 $http.put(url, {
                     token: stripe_token
                 }, {
                     headers: {
-                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                        Authorization: 'JWT ' + jwt_token
                     }
                 }).then(function (res) {
                     resolve(res.data.data);
@@ -327,12 +332,13 @@ angular.module('starter').service('resourceService', function ($http) {
                 var responseDict = Object.assign({}, bookingData)
                 resolve(responseDict);
             })
-        else
+        else 
             return new Promise(function (resolve, reject) {
+                var jwt_token = userInfoService.getToken()
                 var url = base_url + '/api/users/' + window.localStorage.getItem("user_id") + '/bookings';
                 $http.get(url, {
                     headers: {
-                        Authorization: 'JWT ' + window.localStorage.getItem("jwt")
+                        Authorization: 'JWT ' + jwt_token
                     }
                 }).then(function (res) {
                     var upcomingBookings = []

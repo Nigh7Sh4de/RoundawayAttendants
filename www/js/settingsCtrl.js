@@ -1,4 +1,4 @@
-angular.module('starter').controller("Settings", function ($scope, $stateParams, $ionicModal, $state, $ionicPopup, userInfoService) {
+angular.module('starter').controller("Settings", function ($scope, $stateParams, $ionicModal, $ionicHistory, $state, $ionicPopup, userInfoService) {
   
 	$ionicModal.fromTemplateUrl('templates/resources.html', {
     scope: $scope,
@@ -10,6 +10,13 @@ angular.module('starter').controller("Settings", function ($scope, $stateParams,
 	$scope.manage = function() {
     $scope.modal.show();
   }
+
+  $scope.signOut = function() {
+    userInfoService.logOut()    
+    $ionicHistory.clearCache();
+    $state.go('home');
+  }
+
 
   // An alert dialog
    $scope.showAlert = function(message) {
