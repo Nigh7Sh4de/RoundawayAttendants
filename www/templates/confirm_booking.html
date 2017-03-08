@@ -1,42 +1,27 @@
-<ion-view title="ConfirmBooking" id="confirmBookingPage">
-    <div class="bar bar-header bar-stable">
-        <h1 class="title">Confirm Booking</h1>
-    </div>
-
-    <div class="list">
+<ion-view title="Confirm Booking" id="confirmBookingPage">
+    <div class="card list">
         <div class="item">
-            <span class="item-label">{{request.address || resource.location.address}}</span>
-            <span class="item-note">Address</span>
+            <p>{{resource.location.address}}</p>
+            <p class="muted">Address</p>
+        </div>
+        <div class="item item-text-wrap">
+            <p>{{car.license}}</p>
+            <p class="muted">Car</p>
         </div>
         <div class="item">
-            <span class="item-label">{{request.license}}</span>
-            <span class="item-note">Car</span>
+            <p>{{request.start | date: "MMM-dd-yyyy h:mm a"}}</p>
+            <p class="muted">Start</p>
         </div>
         <div class="item">
-            <span class="item-label">{{request.start | date: "MM/dd/yyyy H:mma"}}</span>
-            <span class="item-note">Start</span>
+            <p>{{request.end | date: "MMM-dd-yyyy h:mm a"}}</p>
+            <p class="muted">End</p>
         </div>
         <div class="item">
-            <span class="item-label">{{request.end | date: "MM/dd/yyyy H:mma"}}</span>
-            <span class="item-note">End</span>
-        </div>
-        <div class="item">
-            <span class="item-label">{{request.price | currency : '$' : 2}}</span>
-            <span class="item-note">Price</span>
+            <p>{{price | currency : '$' : 2}}</p>
+            <p class="muted">Price</p>
         </div>
     </div>
-    <div class="icon ion-check"></div>
-    <div class="controls">
-        <button class="button button-clear button-assertive button-full button-flex button-squish" on-tap="modal.hide()">
-            Back
-        </button>
-        <!--<button class="button button-default button-full button-flex button-squish" on-tap="confirm()">
-            <div>Skip Payment</div>
-            <div class="muted-light">payment processed manually</div>
-        </button>-->
-        <button class="button button-positive button-full button-flex button-squish" on-tap="confirm(true)">
-            <div>Pay</div>
-            <div class="muted-light">with credit card</div>
-        </button>
+    <div class="card button button-positive button-block button-flex button-squish" on-tap="confirm(true)">
+        <div>Pay</div>
     </div>
 </ion-view>

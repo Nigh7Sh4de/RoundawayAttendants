@@ -158,7 +158,12 @@ angular.module('starter').service('resourceService', function ($http) {
         }
         ],
 
-        cars: []
+        cars: [{
+            user: '12244486314',
+            license: 'ABCD123',
+            id: 'c1234567890123456789012345',
+            selected: true
+        }]
     }
 
     var data = Object.assign({}, window.data, init_data)
@@ -255,8 +260,8 @@ angular.module('starter').service('resourceService', function ($http) {
     var createBooking = function (request) {
         if (OFFLINE_ONLY)
             return new Promise(function (resolve, reject){
-                var spot = data.spots.filter(function(s){return s.id === request.spot})[0];
-                var car = data.cars.filter(function(c){return c.license === request.license})[0]
+                var spot = data.spots.filter(function(s){return s.id === request.id})[0];
+                var car = data.cars.filter(function(c){return c.id === request.car})[0]
                 if (!car) {
                     car = {
                         license: request.license,

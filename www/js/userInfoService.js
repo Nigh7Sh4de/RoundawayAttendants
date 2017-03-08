@@ -34,13 +34,10 @@ angular.module('starter').service('userInfoService', function ($http) {
                 if (!currentUser) 
                     return reject(new Error('User not logged in'));
 
-                var profile = currentUser.profile;
-                if (!profile) {
-                    profile = {
-                        name: "Happy Gilmore",
-                    }
-                }
-                resolve(profile);
+                var result = Object.assign({}, currentUser.profile, {
+                    id: currentUser.id
+                })
+                resolve(result);
             })
         else {
             if (!window.localStorage.getItem("jwt"))

@@ -211,16 +211,6 @@ button.button-squish {
     height: 100%;
 }
 
-#confirmBookingPage {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-}
-
-#confirmBookingPage .list {
-    margin-top: 30pt;
-}
-
 #searchCarPage {
     display: flex;
     flex-flow: column wrap;
