@@ -1,47 +1,43 @@
 angular.module('starter').controller("CreateBooking", function ($scope, $stateParams, $rootScope, $state, $ionicModal, $ionicPopup, $ionicHistory, resourceService, userInfoService) {
     
-    var getResource = function() {
-        resourceService.getResource($stateParams.type, $stateParams.id)
+    var now = new Date();
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+    $scope.request = {
+        start: now,
+        end: now
+    }
+
+    var getResources = function() {
+        userInfoService.getProfileInfo()
+        .then(function(user) {
+            $scope.user = user;
+
+            return resourceService.getResource($stateParams.type, $stateParams.id)
+        })
         .then(function(resource) {
             if ($stateParams.type === 'spots') {
                 resource.available = new ranger(resource.available.ranges, Date);
             }
             $scope.resource = resource;
-            $scope.car = {
-                license: $stateParams.license
-            }
+            return resourceService.getResource('cars', {
+                selected: true,
+                user: $scope.user.id
+            })
+        })
+        .then(function(cars) {
+            if (!cars || !cars.length)
+                throw new Error('User does not have a car configured');
+            $scope.car = cars[0];
             $scope.range_is_available = null;
             $scope.options = null;
-        })
-        
-        var now = new Date();
-        now.setSeconds(0);
-        now.setMilliseconds(0);
-        $scope.request = {
-            start: now,
-            end: now
-        }
-    }
-    getResource();
-
-    var getUser = function() {
-        userInfoService.getProfileInfo()
-        .then(function(user) {
-            $scope.user = user;
         })
         .catch(function(err) {
             console.error(err);
             $state.go('login');
         })
     }
-    getUser();
-    
-    $ionicModal.fromTemplateUrl('templates/confirm_booking.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.modal = modal;
-    })
+    getResources();
 
     $scope.checkAvailability = function() {
         $scope.options = null;
@@ -122,106 +118,16 @@ angular.module('starter').controller("CreateBooking", function ($scope, $statePa
         var duration = ($scope.request.end - $scope.request.start) / onehour;
         var price = duration * ($scope.request.price || $scope.resource.price.perHour);
 
-
-        $scope.request = {
-            address: $scope.request.address || $scope.resource.location.address,
-            license: $scope.car.license,
-            start: $scope.request.start,
-            end: $scope.request.end,
-            price: price,
-            spot: $scope.request.spot
-        }
-
         if ($stateParams.type === 'lots')
             $scope.request.lot = $stateParams.id
 
 
-        $scope.modal.show();
+        $state.go('confirmBooking', Object.assign({}, $stateParams, {
+            car: $scope.car.id,
+            start: $scope.request.start.valueOf(),
+            end: $scope.request.end.valueOf()
+        }))
     }
-
-    $scope.cancelBooking = function () {
-        $ionicHistory.goBack();
-    }
-
-    var loading;
-    $scope.confirm = function(needToPay) {
-        var req = {
-            start: $scope.request.start,
-            end: $scope.request.end,
-            license: $scope.request.license,
-            spot: $scope.request.spot
-        }
-        if (needToPay) {
-            $scope.payment = {}
-            var paymentPopup = $ionicPopup.show({
-                title: 'Payment',
-                templateUrl: 'templates/payment_form.html',
-                scope: $scope,
-                buttons: [{
-                    text: 'Cancel',
-                    type: 'button-default'
-                }, {
-                    text: 'OK',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        e.preventDefault();
-                        loading = $ionicPopup.show({
-                            title: 'Loading',
-                            template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
-                        })
-                        loading.close()
-                        if ($scope.payment.number === 123) 
-                            $ionicPopup.alert({
-                                title: 'Oops!',
-                                template: 'Payment information was invalid'
-                            })
-                        else
-                            paymentPopup.close('token')
-                        // Stripe.card.createToken($scope.payment, function(status, stripe_res) {
-                        //     if (stripe_res.error) {
-                        //         return $ionicPopup.alert({
-                        //             title: 'Oops!',
-                        //             template: 'Payment information was invalid'
-                        //         })
-                        //     }
-                        //     else paymentPopup.close(stripe_res.id);
-                        // });
-                    }
-                }]
-            })
-            paymentPopup.then(function(res) {
-                $scope.processBooking(res);
-            })
-            
-        }
-        else {
-            loading = $ionicPopup.show({
-                title: 'Loading',
-                template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
-            })
-            $scope.processBooking();
-        }
-    }
-
-    $scope.processBooking = function(payment) {
-        $scope.request.createCarIfNotInSystem = true;
-        resourceService.createBooking($scope.request) 
-        .then(function(response) {
-            if (!payment) return Promise.resolve()
-            else return resourceService.payBooking(payment);
-        })
-        .then(function() {
-            loading.close();
-            $ionicPopup.alert({
-                title: 'Thanks :)',
-                template: 'Your booking has been created!'
-            }).then(function(res) {
-                $scope.modal.hide();
-                $state.go('searchCar', $stateParams, {reload: true});
-            })
-        })
-    }
-
 });
 
 

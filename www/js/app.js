@@ -27,6 +27,11 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
                 templateUrl: 'templates/create_booking.html',
                 controller: 'CreateBooking'
             })
+            .state('confirmBooking', {
+                url: '/:type/:id/:car/:start/:end/confirmBooking',
+                templateUrl: 'templates/confirm_booking.html',
+                controller: 'ConfirmBooking'
+            })
             .state('resourceDetails', {
                 url: '/:type/:id',
                 templateUrl: 'templates/details.html',
@@ -56,11 +61,6 @@ var app = angular.module('starter', ['ionic', 'ngCordova', 'ion-datetime-picker'
                 url:'/settings',
                 templateUrl: 'templates/settings.html',
                 controller: 'Settings'
-            })
-            .state('profile', {
-                url:'/profile',
-                templateUrl: 'templates/profile.html',
-                controller: 'Profile'
             });
         $urlRouterProvider.otherwise('/');
     }) 
