@@ -1,4 +1,4 @@
-<ion-view title="Settings" id="settings">
+<ion-view title="Settings" id="settings" hide-back-button="true">
   <ion-content padding="true" class="has-header">
     <div profile-Bar-Widget></div>
     <div class="spacer" style="width: 300px; height: 20px;"></div>
@@ -10,6 +10,6 @@
     <ion-list id="settings-list4">
       <ion-item id="settings-list-item6" ng-click="manage()">Switch to Attendant View</ion-item>
     <div class="spacer" style="width: 300px; height: 43px;"></div>
-    <button id="settings-button4" class="button button-positive  button-block">Sign Out</button>
+    <button id="settings-button4" class="button button-positive  button-block" ng-click="signOut()">Sign Out</button>
   </ion-content>
 </ion-view>
