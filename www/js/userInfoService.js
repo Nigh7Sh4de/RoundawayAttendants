@@ -23,6 +23,12 @@ angular.module('starter').service('userInfoService', function ($http) {
 				public: "",
 				secret: ""
 			},
+            _stripe: {
+                acct: {},
+                cus: {
+
+                }
+            },
 			admin: false
     	}
     }
@@ -78,6 +84,38 @@ angular.module('starter').service('userInfoService', function ($http) {
         }
     }
 
+    var getStripeCustomerInfo = function() {
+        if (OFFLINE_ONLY)
+            return new Promise(function (resolve, reject){
+                if (!currentUser) 
+                    return reject(new Error('User not logged in'));
+
+                var result = Object.assign({}, currentUser._stripe.customer, {
+                    id: currentUser.id
+                })
+                resolve(result);
+            })
+        else {
+            var isOnline = isAuthenticated()
+            if (!isOnline)
+                return Promise.reject(new Error('User not logged in'))
+            else return new Promise(function (resolve, reject) {
+                var jwt_token = getToken()
+                var url = base_url + '/api/users/stripe/customer';
+                $http.get(url, {
+                    headers: {
+                        Authorization: 'JWT ' + jwt_token
+                    }
+                })
+                .then(function (response) {
+                    currentUser = response.data.data;
+                    window.localStorage.setItem("user_id", currentUser.id);
+                    resolve(response.data.data);
+                })
+            })
+        }
+    }
+
     var fakeAuthenticate = function(){
         setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3NzJlMzkwMmY1OTk5OGExZDc3ZmIyNSIsInByb2ZpbGUiOnsibmFtZSI6IkRlbm5pcyBQbG90bmlrIn0sImlhdCI6MTQ3ODczMDc4MX0.YWXwoNmg4pc1_A9wlV5qJ5ZKHlUgTa5XlbTVeBUIk7M")
         currentUser = data.user;   
@@ -106,6 +144,7 @@ angular.module('starter').service('userInfoService', function ($http) {
         fakeAuthenticate: fakeAuthenticate,
         authenticate: authenticate,
         getProfileInfo: getProfileInfo,
+        getStripeCustomerInfo: getStripeCustomerInfo,
         getToken: getToken,
         logOut: logOut,
         isAuthenticated: isAuthenticated    
