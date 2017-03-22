@@ -4,6 +4,7 @@ angular.module('starter').service('userInfoService', function ($http) {
     var storage = window.localStorage;
     var cachedToken;
 
+    // var base_url = 'http://localhost:8081';
     var base_url = 'http://roundaway.com:8081';
 
     var init_data = {
@@ -84,7 +85,7 @@ angular.module('starter').service('userInfoService', function ($http) {
 
     var authenticate = function (token) {
         return new Promise(function (resolve, reject) {
-            $http.post(base_url + '/auth/facebook', {
+            $http.put(base_url + '/auth/facebook', {
                 access_token: token
             }).success(function (res) {
                 setToken(res.data)
