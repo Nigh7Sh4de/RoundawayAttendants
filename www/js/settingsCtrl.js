@@ -1,4 +1,4 @@
-angular.module('starter').controller("Settings", function ($scope, $stateParams, $ionicModal, $ionicHistory, $state, $ionicPopup, userInfoService) {
+angular.module('starter').controller("Settings", function ($scope, $stateParams, $ionicModal, $ionicHistory, $state, $ionicPopup, userInfoService, resourceService) {
   
 	$ionicModal.fromTemplateUrl('templates/resources.html', {
     scope: $scope,
@@ -26,4 +26,11 @@ angular.module('starter').controller("Settings", function ($scope, $stateParams,
      });
      alertPopup.then(function(res) {});
    };
+
+   //Get cars
+   resourceService.getResource('cars')
+   .then(function(cars) {
+     console.log(cars)
+     $scope.cars = cars
+   })
 });

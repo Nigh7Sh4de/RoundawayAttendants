@@ -1,15 +1,22 @@
 <ion-view title="Settings" id="settings" hide-back-button="true">
   <ion-content padding="true" class="has-header">
     <div profile-Bar-Widget></div>
-    <div class="spacer" style="width: 300px; height: 20px;"></div>
-    <ion-list id="settings-list4">
-      <ion-item id="settings-list-item8">Credit Cards</ion-item>
-      <ion-item id="settings-list-item5">License Plates</ion-item>
-    </ion-list>
-    <div class="spacer" style="width: 300px; height: 20px;"></div>
-    <ion-list id="settings-list4">
+    <div class="card list">
+      <div class="item item-divider">Cars</div>
+      <div class="item" ng-show="cars === loading">
+        <p class="muted">Loading...</p>
+      </div>
+      <div class="item" ng-show="cars !== loading && !cars.length">
+        <p class="muted">You do not have any cars on your account</p>
+      </div>
+      <div class="item" ng-repeat="car in cars">
+        <p>{{car.make}} {{car.model}}</p>
+        <p class="muted">{{car.license}}</p>
+      </div>
+    </div>
+    <!--<ion-list id="settings-list4">
       <ion-item id="settings-list-item6" ng-click="manage()">Switch to Attendant View</ion-item>
-    <div class="spacer" style="width: 300px; height: 43px;"></div>
+    <div class="spacer" style="width: 300px; height: 43px;"></div>-->
     <button id="settings-button4" class="button button-positive  button-block" ng-click="signOut()">Sign Out</button>
   </ion-content>
 </ion-view>
