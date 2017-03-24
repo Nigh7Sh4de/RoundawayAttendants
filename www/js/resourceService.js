@@ -377,6 +377,28 @@ angular.module('starter').service('resourceService', function ($http, userInfoSe
             })
     }  
 
+    var setDefaultCar = function(car) {
+        if (OFFLINE_ONLY)
+            return Promise.resolve(data.cars = data.cars.map(function(c) {
+                if (c.id === car.id) {
+                    c.selected = true
+                }
+                return c
+            }))
+        else
+            return new Promise(function (resolve, reject) {
+                var jwt_token = userInfoService.getToken()
+                var url = base_url + '/api/cars/' + car.id + '/select'
+                $http.put(url, {}, {
+                    headers: {
+                        Authorization: 'JWT ' + jwt_token
+                    }
+                }).then(function (res) {
+                    resolve(res.data.data)
+                })
+            })
+    }
+
     // var adjustAvailability = function (type, id, range, remove) {
     //     return new Promise(function (resolve, reject) {
     //         var url = base_url + '/api/' + type;
@@ -406,6 +428,7 @@ angular.module('starter').service('resourceService', function ($http, userInfoSe
         checkLotAvailability: checkLotAvailability,
         createBooking: createBooking,
         payBooking: payBooking,
-        getBookings: getBookings
+        getBookings: getBookings,
+        setDefaultCar: setDefaultCar
     }
 })

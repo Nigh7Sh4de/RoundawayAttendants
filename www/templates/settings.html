@@ -9,8 +9,10 @@
       <div class="item" ng-show="cars !== loading && !cars.length">
         <p class="muted">You do not have any cars on your account</p>
       </div>
-      <div class="item" ng-repeat="car in cars">
-        <p>{{car.make}} {{car.model}}</p>
+      <div class="item" ng-repeat="car in cars" ng-click="editCar(car)">
+        <p>
+          <i ng-show="car.selected" class="icon ion-checkmark-circled balanced"> </i>{{car.make}} {{car.model}}
+        </p>
         <p class="muted">{{car.license}}</p>
       </div>
     </div>
