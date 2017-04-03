@@ -24,6 +24,8 @@ app.controller("Login", function ($scope, $stateParams, $ionicHistory, $ionicPop
 
     $scope.login = function () {
 
+        var fbConnect = window.facebookConnectPlugin || window.FB;
+
         loading = $ionicPopup.show({
             title: 'Loading',
             template: '<div style="text-align: center;"><ion-spinner></ion-spinner></div>'
@@ -33,12 +35,12 @@ app.controller("Login", function ($scope, $stateParams, $ionicHistory, $ionicPop
             redirect();
         }
         else
-            facebookConnectPlugin.getLoginStatus(function(response) {
+            fbConnect.getLoginStatus(function(response) {
                 if(response.status === 'connected') {
                     authenticate(response.authResponse.accessToken)
                 }
                 else {
-                    facebookConnectPlugin.login(['email', 'public_profile'], function(response) {
+                    fbConnect.login(['email', 'public_profile'], function(response) {
                         authenticate(response.authResponse.accessToken);
                     }, function(err) {
                         loading.close()
